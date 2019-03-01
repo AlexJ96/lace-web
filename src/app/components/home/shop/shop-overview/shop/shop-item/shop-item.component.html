@@ -1,0 +1,45 @@
+<div class="page-settings">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="product-image">
+                <div class="item-image" style="background-color: black; height: 400px;">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="product-details">
+                <h2 class="item-name">Product Name </h2>
+                <p class="item-description"> Product Details </p>
+                <p class="item-price">&pound;9.99</p>
+            </div>
+            <div class="product-sizes">
+                <p class="font-settings" style="text-align: center;"><strong>Size Guide</strong></p>
+                <div class="row justify-content-center">
+                    <div *ngFor="let size of sizes" (click)="selectSize(size);" class="col-sm-1" style="width: auto; padding-right: 0;">
+                        <span class="page-info">
+                            <i class="fa" [ngClass]="{'page-disabled' : !size.inStock, 'size-selected' : size.selected }">{{size.sizeLabel}}</i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="button" style="margin: 0 auto; margin-top: 25px;">
+                <!-- <h4>Add to Bag</h4> -->
+                <h4>{{getButtonText()}}</h4>
+            </div>
+            <hr style="border-top: 1px solid #DCD0C0;">
+            <div class="row" style="padding-bottom: 0;">
+                <div class="col-sm-6" style="text-align: center;">
+                    <span class="add-to-wishlist"><i class="fa fa-heart-o fa-lg" (click)="saveItemToWishlist(item);"
+                            style="margin: 5px; padding-right: 10px; cursor:pointer;"></i>Add to Wishlist
+                    </span>
+                    <!-- Or remove from wishlist -->
+                </div>
+                <div class="col-sm-6" style="text-align: center;">
+                    <p>Product No. 29382</p>
+                </div>
+            </div>
+            <hr style="border-top: 1px solid #DCD0C0;">
+        </div>
+    </div>
+</div>

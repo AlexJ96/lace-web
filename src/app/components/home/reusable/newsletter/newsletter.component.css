@@ -1,0 +1,51 @@
+.newsletter-container {
+    width: 100%;
+    height: 225px;
+    background-color: #373737;
+    text-align: center;
+}
+
+.newsletter-container h2 {
+    padding-top: 30px;
+    letter-spacing: 1px;
+    color: #DCD0C0;
+    font-size: 30px;
+    text-transform: uppercase;
+}
+
+.newsletter-container p {
+    width: 50%;
+    margin: 0 auto;
+    color: #f4f4f4;
+}
+
+.newsletter-container p a {
+    color: #DCD0C0;
+}
+
+.newsletter-input {
+    margin: 0 auto;
+    margin-top: 25px;
+    color: #DCD0C0;
+    width: 20%;
+    height: 30px;
+    border: 1px solid #DCD0C0;
+}
+
+.newsletter-input input {
+    float: left;
+    height: 30px;
+    width: 80%;
+    margin-left: 10px;
+    background: transparent;
+    border: none;
+    outline: none !important;
+    color: #DCD0C0;
+    font-family: 'FuturaPTBook', sans-serif;
+}
+
+.newsletter-input i {
+    float: right;
+    padding: 7px 10px;
+    cursor: pointer;
+}

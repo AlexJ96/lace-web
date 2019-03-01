@@ -1,0 +1,48 @@
+.page-content {
+	width: 100%;
+	margin: 0 auto;
+	text-decoration: underline;
+}
+
+.container {
+	margin: 50px auto;
+}
+
+.page-greeting {
+	font-size: 3rem;
+}
+
+.page-details {
+	font-size: 2rem;
+	padding-bottom: 10px;
+}
+
+.account-overview {
+	margin-top: 25px;
+	/* border-bottom: 1px solid #373737; */
+    border-bottom: 1px solid #DCD0C0;
+}
+
+.row {
+	margin-left: 0;
+	margin-right: 0;
+	padding-bottom: 10px;
+}
+
+.col-sm-2 {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.button {
+	margin: 0;
+	margin-top: 20px;
+	width: 20%;
+	height: 30px;
+	margin-bottom: 30px;
+}
+
+.button h4 {
+    font-size: 1rem;
+    padding-top: 8px;
+}

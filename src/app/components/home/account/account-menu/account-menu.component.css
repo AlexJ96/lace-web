@@ -1,0 +1,33 @@
+.account-menu-item {
+	cursor: pointer;
+}
+
+.account-menu-item:hover div > span {
+	text-decoration: underline;
+}
+
+.row {
+    margin-right: 0;
+	margin-left: 0;
+}
+
+.active {
+	text-decoration: underline;
+}
+
+.account-menu {
+	width: 100%;
+	padding-top: 10px;
+	margin: 0 auto;
+	top: 60px;
+	height: 63px;
+	background-color: white;
+	position: fixed;
+	text-align: center;
+	z-index: 9997;
+}
+
+.site-nav-ul {
+	width: 100% !important;
+	margin-top: 18px !important;
+}

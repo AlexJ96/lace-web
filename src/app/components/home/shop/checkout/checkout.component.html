@@ -1,0 +1,319 @@
+<div class="container">
+
+    <!-- Checkout progress -->
+    <div class="checkout-breadcrumbs clearfix" style="margin-top: 15px; margin-bottom: 30px;">
+        <div class="step" (click)="goBackToStage('1');" [ngClass]="{'step--current' : checkoutPoints[0].current, 'step--completed' : checkoutPoints[0].completed }">
+            <div class="step__number step_one">
+                <span>
+                    <i *ngIf="checkoutPoints[0].completed" class="fa fa-check"></i>
+                    <i *ngIf="!checkoutPoints[0].completed">1</i>
+                </span>
+            </div>
+            <div class="ui-body-text step__description" [ngClass]="{ 'stage-completed' : checkoutPoints[0].completed }">
+                <span>Delivery method</span>
+            </div>
+        </div>
+
+        <div class="step" (click)="goBackToStage('2');" [ngClass]="{'step--current' : checkoutPoints[1].current, 'step--completed' : checkoutPoints[1].completed }">
+            <div class="step__number">
+                <span>
+                    <i *ngIf="checkoutPoints[1].completed" class="fa fa-check"></i>
+                    <i *ngIf="!checkoutPoints[1].completed">2</i>
+                </span>
+            </div>
+            <div class="ui-body-text step__description" [ngClass]="{ 'stage-completed' : checkoutPoints[1].completed }">
+                <span>Delivery address</span></div>
+        </div>
+
+        <div class="step" (click)="goBackToStage('3');" [ngClass]="{'step--current' : checkoutPoints[2].current, 'step--completed' : checkoutPoints[2].completed }">
+            <div class="step__number">
+                <span>
+                    <i *ngIf="checkoutPoints[2].completed" class="fa fa-check"></i>
+                    <i *ngIf="!checkoutPoints[2].completed">3</i>
+                </span>
+            </div>
+            <div class="ui-body-text step__description" [ngClass]="{ 'stage-completed' : checkoutPoints[2].completed }">
+                <span>Delivery options</span></div>
+        </div>
+
+        <div class="step" [ngClass]="{'step--current' : checkoutPoints[3].current, 'step--completed' : checkoutPoints[3].completed }">
+            <div class="step__number step_four">
+                <span>
+                    <i *ngIf="checkoutPoints[3].completed" class="fa fa-check"></i>
+                    <i *ngIf="!checkoutPoints[3].completed">4</i>
+                </span>
+            </div>
+            <div class="ui-body-text step__description step__description--final" [ngClass]="{ 'stage-completed' : checkoutPoints[3].completed }">
+                <span>Review &amp; pay</span></div>
+        </div>
+    </div>
+
+
+    <ng-container *ngIf="checkoutPoints[0].current">
+        <div class="delivery-options">
+            <h3 style="text-align: center; padding-bottom: 15px;">Please select how you would like to recieve your
+                order</h3>
+            <div class="del-options">
+                <div class="row justify-content-center">
+                    <div class="col-sm-3">
+                        <div class="del-option-box">
+                            <a (click)="chooseDeliveryMethod('post');" style="display: inline-block; text-align: center;"
+                                class="delivery-card card card--selectable rounded click-and-collect">
+
+                                <h3 style="text-align: center; font-size: 18px;">Home or Business</h3><br>
+                                <p style="text-align: center;">Deliver to your designated address</p><br>
+
+                                <span><i class="fa fa-home fa-4x" aria-hidden="true"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="del-option-box">
+                            <a (click)="chooseDeliveryMethod('colect');" style="display: inline-block; text-align: center;"
+                                class="delivery-card card card--selectable rounded click-and-collect">
+
+                                <h3 style="text-align: center; font-size: 18px;">Collect from Store</h3><br>
+                                <p style="text-align: center;">Pop in store and collect from us</p><br>
+
+                                <span><i class="fa fa-shopping-bag fa-4x" aria-hidden="true"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="checkoutPoints[1].current">
+        <div style="width: 60%; margin: 0 auto;">
+            <div class="delivery-options">
+                <h3 style="text-align: center; padding-bottom: 15px;">Please confirm your address or enter a new one
+                    for this order</h3>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 style="padding-bottom: 15px;">Personal Details</h3>
+                        <div class="title">
+                            <h4>Title</h4>
+                            <div class="text-input" style="width: 50%;">
+                                <select id="title" name="title">
+                                    <option disabled value="">Please select</option>
+                                    <option value="Miss">Miss.</option>
+                                    <option selected="selected" value="Mr">Mr.</option>
+                                    <option value="Mrs">Mrs.</option>
+                                    <option value="Ms">Ms.</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="firstName">
+                            <h4>First Name</h4>
+                            <div class="text-input" style="width: 90%;">
+                                <input type="text" />
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="lastName">
+                            <h4>Last Name</h4>
+                            <div class="text-input" style="width: 90%;">
+                                <input type="text" />
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="phoneNumber">
+                            <h4>Phone Number</h4>
+                            <div class="text-input" style="width: 90%;">
+                                <input type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <h3 style="padding-bottom: 15px;">Address Details</h3>
+                        <div class="firstLine">
+                            <h4>No. & Street</h4>
+                            <div class="text-input" style="width: 50%;">
+                                <input type="text" />
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="town">
+                            <h4>Town</h4>
+                            <div class="text-input" style="width: 90%;">
+                                <input type="text" />
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="city">
+                            <h4>City</h4>
+                            <div class="text-input" style="width: 90%;">
+                                <input type="text" />
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="postcode">
+                            <h4>Postcode</h4>
+                            <div class="text-input" style="width: 90%;">
+                                <input type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center" style="margin-top: 40px;">
+                    <div class="col-sm-12">
+                        <div class="button" (click)="confirmAddress();" style="margin: 0 auto !important;">
+                            <h4>Next Step</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="checkoutPoints[2].current">
+        <div style="width: 60%; margin: 0 auto;">
+            <div class="delivery-options">
+                <h3 style="text-align: center; padding-bottom: 15px;">Please select how you would like to recieve your
+                    order</h3>
+                <div class="del-options">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-6">
+                            <div class="del-option-box">
+                                <a style="display: inline-block; text-align: center;" class="delivery-card card card--selectable rounded click-and-collect postage">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <input id="male" type="checkbox" class="hidden-checkbox">
+                                            <label for="male" class="real-checkbox" (click)="male = true; female = false;"
+                                                [ngClass]="{ 'real-checkbox-checked' : male }">
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p>Standard Delivery</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <p>&pound;5.99</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center" style="margin-top: 10px;">
+                        <div class="col-sm-6">
+                            <div class="del-option-box">
+                                <a style="display: inline-block; text-align: center;" class="delivery-card card card--selectable rounded click-and-collect postage">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <input id="male" type="checkbox" class="hidden-checkbox">
+                                            <label for="male" class="real-checkbox" (click)="male = true; female = false;"
+                                                [ngClass]="{ 'real-checkbox-checked' : male }">
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            Express Delivery
+                                        </div>
+                                        <div class="col-sm-2">
+                                            &pound;2.50
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center" style="margin-top: 40px;">
+                        <div class="col-sm-12">
+                            <div class="button" (click)="confirmPostage();" style="margin: 0 auto !important;">
+                                <h4>Next Step</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <div class="account-overview" [ngStyle]="{ 'display' : checkoutPoints[3].current ? 'block' : 'none' }" style="margin-top: 35px !important;">
+        <h3 style="text-align: center; padding-bottom: 15px;">Please confirm your order details before completing your purchase.</h3>
+        <div class="account-overview" style="margin-top: 35px !important">
+            <div class="cart-item">
+                <div class="row" style="padding-bottom: 15px;">
+                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
+                        <div class="cart-item-image"></div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
+                        <div class="cart-item-details">
+                            <span class="item-name">name</span>
+                            <p class="item-description">description</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                        <div class="cart-item-size">
+                            <span class="item-name">Size</span>
+                            <div class="item-price">XL</div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                        <div class="cart-item-amount">
+                            <span class="item-name">Quantity</span>
+                            <div class="item-price">??</div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                        <div class="cart-item-colour">
+                            <span class="item-name">Color</span>
+                            <div class="item-price">blue</div>
+                        </div>
+                    </div>
+                    <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                        <div class="cart-item-price">
+                            <span class="item-name">Price</span>
+                            <div class="item-price">&pound;9.99</div>
+                        </div>
+                    </div>
+                    <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                        <div class="cart-item-price">
+                            <span class="item-name"></span>
+                            <br>
+                            <div class="item-price" style="cursor:pointer; text-decoration: underline;">Remove</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="padding-top: 50px;">
+            <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+                <div class="form-row">
+                    <label for="card-info">Card Info</label>
+                    <div id="card-info" #cardInfo></div>
+
+                    <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+                </div>
+
+                <button type="submit">Checkout</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Card Info -->
+    <!-- <div class="account-overview" style="margin-top: 35px !important;">
+        <div class="padding-top: 50px;">
+            <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+                <div class="form-row">
+                    <label for="card-info">Card Info</label>
+                    <div id="card-info" #cardInfo></div>
+
+                    <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+                </div>
+
+                <button type="submit">Checkout</button>
+            </form>
+        </div>
+    </div> -->
+</div>

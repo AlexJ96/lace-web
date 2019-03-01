@@ -1,0 +1,58 @@
+<account-menu></account-menu>
+
+<div class="container">
+    <div class="page-content">
+        <p class="page-greeting">Contact Preferences</p>
+    </div>
+    <p>Update your contact preferences and manage our newsletter subscription here.</p>
+
+    <div class="account-overview" style="margin-top: 35px !important;">
+        <p class="page-details">What would you like to hear about? Select your options below and we'll keep you in
+            the loop.<br>
+            <small style="font-style:italic;">Changes are saved automatically.</small>
+        </p>
+        <div class="row" style="margin-top: 25px;">
+            <h3>Discounts and Sales</h3>
+            <p style="text-transform: initial;">Be first in line to nab the
+                stuff you love for less.</p>
+            <br>
+            <div class="col-md-1">
+                <input id="discountsEmail" type="checkbox" class="hidden-checkbox">
+                <label for="discountsEmail" class="real-checkbox" (click)="discountsEmail = !discountsEmail" [ngClass]="{ 'real-checkbox-checked' : discountsEmail }">
+                    Email
+                </label>
+            </div>
+            <div class="col-md-1">
+                <input id="discountsText" type="checkbox" class="hidden-checkbox">
+                <label for="discountsText" class="real-checkbox" (click)="discountsText = !discountsText" [ngClass]="{ 'real-checkbox-checked' : discountsText }">
+                    Text
+                </label>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 25px; margin-bottom: 25px;">
+            <h3>New Stuff</h3>
+            <p style="text-transform: initial;">Fashion drops, news and style advice: hear it first,
+                wear it first.</p>
+            <br>
+            <div class="col-md-1">
+                <input id="newStuffEmail" type="checkbox" class="hidden-checkbox">
+                <label for="newStuffEmail" class="real-checkbox" (click)="newStuffEmail = !newStuffEmail" [ngClass]="{ 'real-checkbox-checked' : newStuffEmail }">
+                    Email
+                </label>
+            </div>
+            <div class="col-md-1">
+                <input id="newStuffText" type="checkbox" class="hidden-checkbox">
+                <label for="newStuffText" class="real-checkbox" (click)="newStuffText = !newStuffText" [ngClass]="{ 'real-checkbox-checked' : newStuffText }">
+                    Text
+                </label>
+            </div>
+        </div>
+
+        <p>You're currently subscribed to our newsletter, would you like to unsubscribe?</p>
+        <!-- Sub or unsub -->
+        <div class="button">
+            <h4>Unsubscribe from newsletter </h4>
+        </div>
+
+    </div>
+</div>

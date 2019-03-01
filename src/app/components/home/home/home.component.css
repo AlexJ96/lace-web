@@ -1,0 +1,11 @@
+.image-content {
+    width: 100%;
+    text-align: center;
+    height: 400px;
+    background-color: #DCD0C0;
+}
+
+.image-content img {
+    height: 100%;
+    width: 100%;
+}

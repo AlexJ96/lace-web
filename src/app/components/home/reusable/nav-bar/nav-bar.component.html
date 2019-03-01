@@ -1,0 +1,61 @@
+<div class="top-bar">
+    <div class="top-bar-content">
+        <div class="mobile-nav">
+            <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+        </div>
+        <h1 [routerLink]="['']">𝕷𝖆𝖈𝖊 𝕭𝖔𝖚𝖙𝖎𝖖𝖚𝖊</h1>
+        <ul class="site-nav-ul">
+            <li>
+                <a (mouseenter)="showMenu = true; menu = 'Sale'" href="" style="color: red;">Sale</a>
+            </li>
+            <li>
+                <a (mouseenter)="showMenu = true; menu = 'new'" [routerLink]="['/shop/category/new']" href="">New!</a>
+            </li>
+            <li>
+                <a [routerLink]="['/shop/category/clothing']" href="">Clothing</a>
+            </li>
+            <li>
+                <a [routerLink]="['/shop/category/dresses']" href="">Dresses</a>
+            </li>
+            <li>
+                <a [routerLink]="['/shop/category/tops']" href="">Tops</a>
+            </li>
+            <li>
+                <a [routerLink]="['/shop/category/shoes']" href="">Shoes</a>
+            </li>
+            <li>
+                <a href="">Accessories</a>
+            </li>
+        </ul>
+        <ul class="personal-nav">
+            <li>
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </li>
+            <li>
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            </li>
+            <li>
+                <i class="fa fa-heart" aria-hidden="true"></i>
+            </li>
+            <li>
+                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+            </li>
+        </ul>
+    </div>
+    <div (mouseenter)="showMenu = true;" (mouseleave)="showMenu = false;" [ngStyle]="{'display' : showMenu == true ? 'block' : 'none'}"
+        style="width: 100%; height: auto; display: none;">
+        <hr style="border-top: 1px solid #DCD0C0;">
+        <ng-container *ngIf="menu == 'Sale'">
+            <div class="sale-menu">
+                <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-lg-4 dropdown-menu" *ngFor="let menu of getMenuContent().menuDetails">
+                        <h3 style="text-transform: initial; font-size: 21px;" class="font-settings">{{menu.categoryTitle}}</h3>
+                        <hr style="margin-top: 0; border-top: 2px solid #DCD0C0;">
+                        <p class="font-settings" style="text-transform: initial; margin: 5px 10px; cursor: pointer; text-align: left;" *ngFor="let menuItem of menu.menuItems">
+                            {{menuItem.label}}</p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

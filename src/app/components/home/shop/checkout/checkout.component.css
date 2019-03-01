@@ -1,0 +1,220 @@
+form.checkout {
+    max-width: 500px;
+    margin: 2rem auto;
+    text-align: center;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    background: white;
+
+    font-family: monospace;
+    color: #525252;
+    font-size: 1.1rem;
+}
+
+form.checkout button {
+    padding: 0.5rem 1rem;
+    color: white;
+    background: #373737;
+    border: none;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+form.checkout button:active {
+    background: rgb(165, 76, 43);
+}
+
+
+/* Breadcrumbs */
+.checkout * {
+    box-sizing: border-box;
+}
+
+.checkout-breadcrumbs {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    margin: 0 auto 32px;
+    color: #999;
+}
+
+.clear-fix:before, .clear-fix:after, .clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+
+.checkout-breadcrumbs .step.step--current {
+    color: #373737;
+}
+
+.checkout-breadcrumbs .step .step__number {
+    position: relative;
+}
+
+.checkout-breadcrumbs .step.step--completed, .checkout-breadcrumbs .step.step--completed a, .checkout-breadcrumbs .step.step--current .step__description {
+    color: #373737;
+}
+
+.checkout-breadcrumbs .step {
+    position: relative;
+    z-index: 1;
+    width: 25%;
+    text-align: center;
+}
+
+.checkout-breadcrumbs .step .step__description {
+    padding-top: 8px;
+    color: #999;
+    word-spacing: 100vw;
+}
+
+.checkout-breadcrumbs .step.step--completed .step__description {
+    color: #373737;
+}
+
+.checkout-breadcrumbs .step.step--completed .step__number span {
+    background: #fff;
+    border-color: #373737;
+    box-shadow: 0 0 0 1px;
+    color: #373737;
+}
+
+.checkout-breadcrumbs .step .step__number:before {
+    left: 0;
+}
+
+.checkout-breadcrumbs .step .step__number:after {
+    right: 0;
+}
+
+.checkout-breadcrumbs .step .step__number:after, .checkout-breadcrumbs .step .step__number:before {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    display: block;
+    width: 50%;
+    height: 1px;
+    background-color: #999;
+    content: "";
+}
+
+.checkout-breadcrumbs .step .step__number span {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    box-sizing: content-box;
+    padding: 0;
+    border: 1px solid #999;
+    background: #fff;
+    border-radius: 16px;
+    line-height: 17px;
+    font-size: 12px;
+    font-size: .75rem;
+}
+
+.checkout-breadcrumbs .step.step--current .step__number:before {
+    background-color: #373737;
+}
+
+.step_one:before, .step_four:after {
+    background-color: transparent !important;
+}
+
+.step__number span i {
+    font-style:initial;
+}
+
+.checkout-breadcrumbs .step.step--current .step__number span {
+    background: #373737;
+    border-color: #373737;
+    color: #fff;
+}
+
+.checkout-breadcrumbs .step.step--completed .step__number:after, .checkout-breadcrumbs .step.step--completed .step__number:before {
+    background-color: #373737;
+}
+
+.stage-completed span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+/* Delivery options */
+.text-input {
+    margin: 0 !important;
+    margin-top: 25px;
+    color: #373737;
+    width: 20%;
+    height: 30px;
+    border: 1px solid #373737;
+}
+
+.text-input input, .text-input select {
+    float: left;
+    height: 30px;
+    width: 95%;
+    margin-left: 10px;
+    background: transparent;
+    border: none;
+    outline: none !important;
+    color: #373737;
+    font-family: 'FuturaPTBook', sans-serif;
+}
+
+.text-input select {
+    width: 90%;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+    display: flex;
+}
+
+.delivery-card {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 22px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.card--selectable {
+    border: none;
+    box-shadow: inset 0 0 0 1px #e1e1e1, 0 2px 0 0 rgba(0,0,0,.2);
+}
+
+.card {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+}
+
+.card:hover {
+    border: 2px solid #DCD0C0;
+}
+
+.postage:hover {
+    border: 1px solid #e1e1e1 !important;
+}
+
+.rounded {
+    border-radius: 4px;
+}
+
+a {
+    text-decoration: none;
+    color: #373737;
+}
+
+.del-options, .delivery-options {
+    margin-top: 30px;
+}

@@ -1,0 +1,98 @@
+.footer-container {
+    min-height: 220px;
+    width: 100%;
+    /* background-color: #ebebeb; */
+    /* background-color: #DCD0C0; */
+    background-color: #E7DFDD;
+    margin: 20px 0;
+}
+
+.footer-nav {
+    padding-top: 25px;
+}
+
+.footer-nav h4 {
+    font-size: 18px;
+    font-weight: 500;
+    cursor: default;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.copyright-details {
+    padding-bottom: 25px;
+}
+
+.contact-details, .help-details, .account-details, .discover-details, .about-details, .copyright-details {
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 1.8;
+    color: #373737;
+}
+
+.contact-details p, .help-details p, .account-details p, .discover-details p, .about-details p, .copyright-details p {
+    margin: 0;
+}
+
+.contact-details p a, .help-details p a, .account-details p a, .discover-details p a, .about-details p a, .copyright-details p a {
+    color: #373737;
+}
+
+
+.contact-details ul {
+    margin-top: 10px;
+    padding-inline-start: 0px;
+}
+
+.contact-details ul li {
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.contact-details ul li:hover {
+    opacity: 0.9;
+}
+
+.contact-details ul li a {
+    background-color: #373737;
+    color: #f4f4f4;
+    display: block;
+    line-height: 32px;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    margin-right: 15px;
+    border-radius: 500px;
+    text-align: center;
+    padding-left: 1px;
+    box-sizing: border-box;
+}
+
+.help-details p:hover, .account-details p:hover, .discover-details p:hover, .about-details p:hover, .copyright-details p:hover {
+    color: #231f20;
+    font-weight: 500;
+    opacity: 0.9;
+    text-decoration: underline;
+}
+
+.help-details p, .account-details p, .discover-details p, .about-details p {
+    cursor: pointer;
+}
+
+.copyright-details a {
+    color: #373737;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 756px) {
+    .col-12 {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 569px) {
+    .col-6 {
+        text-align: center;
+    }
+}

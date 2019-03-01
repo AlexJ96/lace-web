@@ -1,0 +1,41 @@
+.product-details {
+    margin-top: 50px;
+}
+
+.product-details h2 {
+    text-align: center;
+    font-size: 18px;
+}
+
+.item-description, .item-price {
+    text-align: center;
+}
+
+.item-price {
+    margin-top: 10px;
+    font-size: 18px !important;
+}
+
+.product-sizes {
+    margin-top: 25px;
+}
+
+.product-sizes p {
+    padding-bottom: 15px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.page-info i {
+    font-family: 'FuturaPTBook', sans-serif !important;
+}
+
+.add-to-wishlist:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.size-selected {
+    background-color: #DCD0C0 !important;
+    cursor: initial;
+}

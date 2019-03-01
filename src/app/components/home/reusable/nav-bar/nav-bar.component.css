@@ -1,0 +1,146 @@
+.top-bar {
+    min-height: 70px;
+    width: 100%;
+    background-color: white;
+    position: fixed;
+    color: #373737;
+    border-bottom: 1px solid #DCD0C0;
+    z-index: 9999;
+}
+
+.top-bar-content {
+    margin: 0 50px;
+    margin-top: 10px;
+}
+
+.top-bar-content h1 {
+    display: inline-block;
+    width: 24%;
+    text-align: center;
+    cursor: pointer;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.site-nav-ul, .personal-nav {
+    width: 50%;
+    text-align: center;
+    display: inline-block;
+}
+
+.sale-menu {
+    margin: 0 auto;
+    width: 60%;
+}
+
+.personal-nav {
+    width: 24%;
+}
+
+.site-nav-ul li, .personal-nav li {
+    padding: 0 15px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.site-nav-ul li a, .personal-nav li i {
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    color: #373737
+}
+
+.site-nav-ul li:hover, .personal-nav li:hover {
+    /* background-color: #f8f8f8; */
+    text-decoration: none;
+}
+
+.site-nav-ul li:hover>a, .site-nav-ul li a:hover {
+    padding-bottom: 15px;
+    /* border-bottom: 2px solid #373737; */
+    border-bottom: 2px solid #DCD0C0;
+}
+
+.personal-nav li:hover>i, .personal-nav li i:hover {
+    padding-bottom: 15px;
+    /* border-bottom: 2px solid #373737; */
+    border-bottom: 2px solid #DCD0C0;
+}
+
+.mobile-nav {
+    color: #373737;
+    display: none;
+    width: 15%;
+    text-align: center;
+}
+
+.fa-lg {
+    vertical-align: 0%;
+}
+
+.font-settings {
+    text-align: center;
+}
+
+.dropdown-menu p:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 500px) {
+    
+    .personal-nav, .site-nav-ul {
+        display: none;
+    }
+
+    .top-bar-content h1 {
+        width: 85%;
+    }
+
+    .top-bar-content {
+        text-align: center;
+    }
+
+    .mobile-nav {
+        display: inline-block;
+    }
+
+}
+
+
+@media screen and (max-width: 1172px) {
+    
+    .site-nav-ul {
+        display: none;
+    }
+
+    .top-bar-content h1 {
+        width: 40%;
+    }
+
+    .personal-nav {
+        width: 30%;
+    }
+
+    .top-bar-content {
+        text-align: center;
+    }
+
+    .mobile-nav {
+        display: inline-block;
+    }
+
+}
+
+@media screen and (min-width: 900px) and (max-width: 1172px) {
+    
+    .site-nav-ul {
+        display: none;
+    }
+
+    .top-bar-content h1 {
+        width: 50%;
+    }
+    
+}

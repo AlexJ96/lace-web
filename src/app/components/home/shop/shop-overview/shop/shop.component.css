@@ -1,0 +1,202 @@
+.row {
+    margin-left: 0;
+    margin-right: 0;
+    display: flex;
+}
+
+.page-settings {
+    margin: 0 auto;
+    margin-top: 25px;
+    width: 80%;
+}
+
+.container {
+    min-height: 500px;
+}
+
+.shop-end {
+    margin-top: 25px;
+}
+
+.clear-apply {
+    width: 100%;
+    float: right;
+    padding-right: 15px;
+}
+
+.clear-apply span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.all-less-padding:before {
+    margin-right: 3.5px;
+}
+
+.hundred-less-padding:before {
+    margin-right: 2px;
+}
+
+.filter-count {
+    float: right;
+    font-family: 'FuturaPTBook', sans-serif;
+    color: #373737;
+}
+
+.filter-ul {
+    padding-inline-start: 0px;
+}
+
+.filter-ul li {
+    display: block;
+    padding: 0;
+}
+
+.hidden-checkbox {
+    left: -9999px;
+    position: absolute;
+    z-index: 1;
+}
+
+.real-checkbox {
+    width: 100%;
+    font-family: 'FuturaPTBook', sans-serif;
+    cursor: pointer;
+}
+
+.real-checkbox:before {
+    border: 1px solid #373737;
+    content: '';
+    display: inline-block;
+    height: 10px;
+    left: 0;
+    margin-top: -6px;
+    margin-right: 10px;
+    width: 10px;
+    top: 50%;
+}
+
+.real-checkbox-checked:before {
+    background-color: #373737;
+}
+
+.filter-section {
+    width: calc(100% - 20px);
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.filter-section-title-container {
+    border-bottom: 1px solid #373737;
+    cursor: pointer;
+    padding-bottom: 5px;
+}
+
+.filter-section-title, .clear-apply {
+    font-family: 'FuturaPTBook', sans-serif;
+    color: #231f20;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 13px;
+}
+
+
+.shop-filter, .shop-sort, .shop-pages, .view-all, .item-amount {
+    border: 1px solid #373737;
+    height: 38px;
+    line-height: 34px;
+    font-size: 13px;
+    cursor: pointer;
+    position: relative;
+}
+
+.shop-filter:hover, .shop-sort:hover, .view-all:hover, .item-amount:hover {
+    background-color: #DCD0C0;
+}
+
+.shop-filter-dropdown, .shop-sort-dropdown, .item-amount-dropdown {
+    position: absolute;
+    width: calc(100% + 2px);
+    border: 1px solid #373737;
+    background-color: white;
+    margin-left: -1px;
+    display: none;
+    height: auto;
+    z-index: 999;
+}
+
+.shop-content {
+    height: auto;
+    margin-top: 35px;
+}
+
+.shop-pages {
+    border: none;
+    cursor: default;
+}
+
+.no-text-transform {
+    text-transform: none !important;
+}
+
+.shop-plus {
+    float:right; 
+    padding: 13px;
+}
+
+.arrow-up {
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    
+    border-bottom: 5px solid black;
+}
+
+.filter-text, .sort-text, .page-info, .view-all-text, .back-to-top-text, .item-name, .item-description, .item-price, .item-amount-text, .shop-item-name, .shop-item-description p, .shop-item-price, .shop-item-colour  {
+    font-family: 'FuturaPTBook', sans-serif;
+    color: #231f20;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 13px;
+    padding-left: 10px;
+}
+
+.back-to-top {
+    width: 130px;
+    padding: 5px 0;
+    padding-left: 22px;
+    cursor: pointer;
+}
+
+.back-to-top-text i {
+    padding-left: 25px;
+}
+
+.page-info i {
+    padding: 11.6px;
+    border: 1px solid #373737;
+    cursor: pointer;
+    /*opacity: 0.5;*/ /*Ready for when they are disabled - set opacity lower*/
+}
+
+.page-disabled {
+    opacity: 0.6;
+    cursor: default !important;
+}
+
+.back-arrow, .forward-arrow {
+    border: 1px solid #373737;
+    width: 50px;
+    height: 20px;
+}
+
+.page-info i:hover {
+    background-color: #DCD0C0 !important;
+}
+
+.page-disabled:hover {
+    background-color: #DCD0C0 !important;
+}

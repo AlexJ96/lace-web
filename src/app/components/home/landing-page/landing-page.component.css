@@ -1,0 +1,9 @@
+.info-bar {
+    width: 100%;
+    min-height: 50px;
+    background-color: #373737;
+    padding-top: 70px; 
+    text-align: center;
+    color: #F4F4F4;
+    z-index: 9998;
+}

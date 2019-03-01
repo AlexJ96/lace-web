@@ -1,0 +1,24 @@
+.text-input {
+    margin: 0 !important;
+    margin-top: 25px;
+    color: #373737;
+    width: 20%;
+    height: 30px;
+    border: 1px solid #373737;
+}
+
+.text-input input, .text-input select {
+    float: left;
+    height: 30px;
+    width: 95%;
+    margin-left: 10px;
+    background: transparent;
+    border: none;
+    outline: none !important;
+    color: #373737;
+    font-family: 'FuturaPTBook', sans-serif;
+}
+
+.text-input select {
+    width: 90%;
+}
