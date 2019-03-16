@@ -1,11 +1,15 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { OnInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { ActivatedRoute, Params, Route, Router } from "@angular/router";
+import { ShopService } from "src/app/services/shop.service";
+import { AccountService } from "src/app/services/account.service";
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
     selector: 'shop',
     templateUrl: 'shop.component.html',
     styleUrls: ['shop.component.css', '../../../account/account/account.component.css']
 })
-export class ShopComponent {
+export class ShopComponent implements OnInit {
 
     @ViewChild('shopFilter') filterMenu: ElementRef;
     filterMenuOpen: boolean = false;
@@ -41,10 +45,64 @@ export class ShopComponent {
         Order: ''
     }
 
+    currentWishlist: any;
+
+    constructor(private router: Router, private route: ActivatedRoute, private api: ApiService, private shopService: ShopService, private account: AccountService) { }
+
+    ngOnInit() {
+        this.route.params.subscribe((params: Params) => {
+            if (params['id'] != null) {
+                this.filter.Category = params['id'];
+            }
+        });
+        this.loadShopItems();
+    }
+
+    loadItemPage(item) {
+        localStorage.setItem("item", JSON.stringify(item));
+        this.router.navigateByUrl("shop/product/" + item.id);
+    }
+
+    async loadShopItems() {
+        this.filters = await this.shopService.loadFilters(this.filter, ["Shop"]);
+        this.filters.SIZE_FILTERS.forEach(element => {
+            element.checked = false;
+        });
+
+        this.filters.COLOUR_FILTERS.forEach(element => {
+            element.checked = false;
+        });
+
+        this.filters.BRAND_FILTERS.forEach(element => {
+            element.checked = false;
+        });
+        
+        this.items = await this.shopService.loadItemsByFilter(this.filter, ["Shop"]);
+        this.items.forEach(item => {
+            item.wishlist = false;
+        });
+
+        this.currentWishlist = await this.account.loadWishlist();
+        if (this.currentWishlist.wishlistItems.length == 0) {
+            this.currentWishlist = this.account.getWishlist();
+        }
+        this.currentWishlist.wishlistItems.forEach(wishlistItem => {
+            let itemId = wishlistItem.itemSpec.item.id;
+            let exists = this.items.find(item => item.item.id == itemId);
+            if (exists != undefined || exists != null) {
+                exists.wishlist = true;
+            }
+        });
+        this.refreshPageCount();
+    }
+
+    async reloadShopItems(filter) {
+        this.items = await this.shopService.loadItemsByFilter(filter, ["Shop"]);
+        this.refreshPageCount();
+    }
 
     refreshPageCount() {
         this.totalPages = Math.ceil(this.filters.TOTAL_COUNT[0].keyCount / this.shownItemsAmount);
-        //this.totalPages = totalPages < 1 ? 1 : totalPages;
     }
 
     async pageDown() {
@@ -53,7 +111,7 @@ export class ShopComponent {
         }
         this.currentPage--;
         this.filter.CurrentPage = this.currentPage;
-        // await this.reloadShopItems(this.filter);
+        await this.reloadShopItems(this.filter);
     }
 
     async pageUp() {
@@ -61,7 +119,7 @@ export class ShopComponent {
             return;
         this.currentPage++;
         this.filter.CurrentPage = this.currentPage;
-        // await this.reloadShopItems(this.filter);
+        await this.reloadShopItems(this.filter);
     }
 
     async applyFilters() {
@@ -97,9 +155,9 @@ export class ShopComponent {
             this.clearFilters();
             return;
         }
-        // let newFilter = await this.shopService.loadFilters(this.filter, ["Shop"]);
-        // this.items = await this.shopService.loadItemsByFilter(this.filter, ["Shop"]);
-        // this.filters.TOTAL_COUNT[0].keyCount = newFilter.TOTAL_COUNT[0].keyCount;
+        let newFilter = await this.shopService.loadFilters(this.filter, ["Shop"]);
+        this.items = await this.shopService.loadItemsByFilter(this.filter, ["Shop"]);
+        this.filters.TOTAL_COUNT[0].keyCount = newFilter.TOTAL_COUNT[0].keyCount;
         this.displayFilterMenu();
         this.refreshPageCount();
     }
@@ -119,8 +177,8 @@ export class ShopComponent {
                 element.checked = false;
             }
         });
-        // this.items = await this.shopService.loadItemsByFilter(this.filter, ["Shop"]);
-        // this.filters = await this.shopService.loadFilters(this.filter, ["Shop"]);
+        this.items = await this.shopService.loadItemsByFilter(this.filter, ["Shop"]);
+        this.filters = await this.shopService.loadFilters(this.filter, ["Shop"]);
         this.displayFilterMenu();
         this.refreshPageCount();
     }
@@ -178,7 +236,7 @@ export class ShopComponent {
         selected.checked = true;
 
         this.filter.Order = selected.type;
-        // await this.reloadShopItems(this.filter);
+        await this.reloadShopItems(this.filter);
         this.displaySortMenu();
     }
 
@@ -197,7 +255,7 @@ export class ShopComponent {
         this.totalPages = 1;
 
         this.closeAllItemAmountMenus();
-        // await this.reloadShopItems(this.filter);
+        await this.reloadShopItems(this.filter);
     }
 
     closeAllItemAmountMenus() {
@@ -264,6 +322,33 @@ export class ShopComponent {
         } else {
             this.canLoadMoreItems = true;
             return this.shownItemsAmount;
+        }
+    }
+
+    async saveItemToWishlist(item) {
+        console.log(item);
+        let itemId = item.item.id;
+        let response = await this.account.addItemToWishlist(itemId);
+        if (response == 'true') {
+            item.wishlist = true;
+            this.currentWishlist = await this.account.loadWishlist();
+            if (this.currentWishlist.wishlistItems.length == 0) {
+                this.currentWishlist = this.account.getWishlist();
+            }
+        }
+    }
+
+    async removeItemFromWishlist(item) {
+        let wishlistItem = this.currentWishlist.wishlistItems.find(wishlistItem => wishlistItem.itemSpec.item.id == item.item.id);
+        if (wishlistItem != undefined || wishlistItem != null) {
+            let response = await this.account.removeItemFromWishlist(wishlistItem.id);
+            if (response == 'true') {
+                item.wishlist = false;
+                this.currentWishlist = await this.account.loadWishlist();
+                if (this.currentWishlist.wishlistItems.length == 0) {
+                    this.currentWishlist = this.account.getWishlist();
+                }
+            }
         }
     }
 

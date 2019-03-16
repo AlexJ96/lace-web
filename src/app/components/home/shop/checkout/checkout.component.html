@@ -33,7 +33,8 @@
                 </span>
             </div>
             <div class="ui-body-text step__description" [ngClass]="{ 'stage-completed' : checkoutPoints[2].completed }">
-                <span>Delivery options</span></div>
+                <span *ngIf="deliveryType != 'collect'">Delivery options</span>
+                <span *ngIf="deliveryType == 'collect'">Collect from Store</span></div>
         </div>
 
         <div class="step" [ngClass]="{'step--current' : checkoutPoints[3].current, 'step--completed' : checkoutPoints[3].completed }">
@@ -69,7 +70,7 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="del-option-box">
-                            <a (click)="chooseDeliveryMethod('colect');" style="display: inline-block; text-align: center;"
+                            <a (click)="chooseDeliveryMethod('collect');" style="display: inline-block; text-align: center;"
                                 class="delivery-card card card--selectable rounded click-and-collect">
 
                                 <h3 style="text-align: center; font-size: 18px;">Collect from Store</h3><br>
@@ -87,18 +88,19 @@
     <ng-container *ngIf="checkoutPoints[1].current">
         <div style="width: 60%; margin: 0 auto;">
             <div class="delivery-options">
-                <h3 style="text-align: center; padding-bottom: 15px;">Please confirm your address or enter a new one
+                <h3 *ngIf="orderObject?.deliveryType != 'collect'" style="text-align: center; padding-bottom: 15px;">Please confirm your address or enter a new one
                     for this order</h3>
-                <div class="row">
+                    <h3 *ngIf="orderObject?.deliveryType == 'collect'" style="text-align: center; padding-bottom: 15px;">Please confirm your personal details for this order</h3>
+                <div class="row justify-content-center">
                     <div class="col-sm-6">
-                        <h3 style="padding-bottom: 15px;">Personal Details</h3>
+                        <h3 *ngIf="orderObject?.deliveryType != 'collect'" style="padding-bottom: 15px;">Personal Details</h3>
                         <div class="title">
                             <h4>Title</h4>
                             <div class="text-input" style="width: 50%;">
-                                <select id="title" name="title">
+                                <select [(ngModel)]="account.title" id="title" name="title">
                                     <option disabled value="">Please select</option>
-                                    <option value="Miss">Miss.</option>
                                     <option selected="selected" value="Mr">Mr.</option>
+                                    <option value="Miss">Miss.</option>
                                     <option value="Mrs">Mrs.</option>
                                     <option value="Ms">Ms.</option>
                                 </select>
@@ -109,7 +111,7 @@
                         <div class="firstName">
                             <h4>First Name</h4>
                             <div class="text-input" style="width: 90%;">
-                                <input type="text" />
+                                <input [(ngModel)]="account.firstName" type="text" />
                             </div>
                         </div>
 
@@ -117,7 +119,7 @@
                         <div class="lastName">
                             <h4>Last Name</h4>
                             <div class="text-input" style="width: 90%;">
-                                <input type="text" />
+                                <input [(ngModel)]="account.lastName" type="text" />
                             </div>
                         </div>
 
@@ -125,16 +127,16 @@
                         <div class="phoneNumber">
                             <h4>Phone Number</h4>
                             <div class="text-input" style="width: 90%;">
-                                <input type="text" />
+                                <input [(ngModel)]="account.phoneNumber" type="text" />
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div *ngIf="orderObject?.deliveryType != 'collect'" class="col-sm-6">
                         <h3 style="padding-bottom: 15px;">Address Details</h3>
                         <div class="firstLine">
                             <h4>No. & Street</h4>
                             <div class="text-input" style="width: 50%;">
-                                <input type="text" />
+                                <input [(ngModel)]="orderObject.address.numberStreet" type="text" />
                             </div>
                         </div>
 
@@ -142,7 +144,7 @@
                         <div class="town">
                             <h4>Town</h4>
                             <div class="text-input" style="width: 90%;">
-                                <input type="text" />
+                                <input [(ngModel)]="orderObject.address.town" type="text" />
                             </div>
                         </div>
 
@@ -150,7 +152,15 @@
                         <div class="city">
                             <h4>City</h4>
                             <div class="text-input" style="width: 90%;">
-                                <input type="text" />
+                                <input [(ngModel)]="orderObject.address.city" type="text" />
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="country">
+                            <h4>Country</h4>
+                            <div class="text-input" style="width: 90%;">
+                                <input [(ngModel)]="orderObject.address.country" type="text" />
                             </div>
                         </div>
 
@@ -158,7 +168,7 @@
                         <div class="postcode">
                             <h4>Postcode</h4>
                             <div class="text-input" style="width: 90%;">
-                                <input type="text" />
+                                <input [(ngModel)]="orderObject.address.postcode" type="text" />
                             </div>
                         </div>
                     </div>
@@ -182,20 +192,40 @@
                 <div class="del-options">
                     <div class="row justify-content-center">
                         <div class="col-sm-6">
-                            <div class="del-option-box">
+                            <div class="del-option-box" (click)="selectPostage('uk_standard');">
                                 <a style="display: inline-block; text-align: center;" class="delivery-card card card--selectable rounded click-and-collect postage">
-                                    <div class="row">
+                                    <div class="row" style="padding-bottom: 0;">
                                         <div class="col-sm-2">
-                                            <input id="male" type="checkbox" class="hidden-checkbox">
-                                            <label for="male" class="real-checkbox" (click)="male = true; female = false;"
-                                                [ngClass]="{ 'real-checkbox-checked' : male }">
+                                            <input id="uk_standard" type="checkbox" class="hidden-checkbox">
+                                            <label for="uk_standard" class="real-checkbox" (click)="selectPostage('uk_standard');"
+                                                [ngClass]="{ 'real-checkbox-checked' : orderObject?.postageType == 'uk_standard' }">
                                             </label>
                                         </div>
                                         <div class="col-sm-8">
-                                            <p>Standard Delivery</p>
+                                            <p>UK Standard Delivery <br>(1-3 Days)</p>
                                         </div>
                                         <div class="col-sm-2">
-                                            <p>&pound;5.99</p>
+                                            <p>&pound;4.50</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="del-option-box" (click)="selectPostage('uk_next_day');">
+                                <a style="display: inline-block; text-align: center;" class="delivery-card card card--selectable rounded click-and-collect postage">
+                                    <div class="row" style="padding-bottom: 0;">
+                                        <div class="col-sm-2">
+                                            <input id="uk_next_day" type="checkbox" class="hidden-checkbox">
+                                            <label for="uk_next_day" class="real-checkbox" (click)="selectPostage('uk_next_day');"
+                                                [ngClass]="{ 'real-checkbox-checked' : orderObject?.postageType == 'uk_next_day' }">
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            UK Next Day Delivery <br>(Ordered Before 1pm)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            &pound;6.25
                                         </div>
                                     </div>
                                 </a>
@@ -204,20 +234,40 @@
                     </div>
                     <div class="row justify-content-center" style="margin-top: 10px;">
                         <div class="col-sm-6">
-                            <div class="del-option-box">
+                            <div class="del-option-box" (click)="selectPostage('europe');">
                                 <a style="display: inline-block; text-align: center;" class="delivery-card card card--selectable rounded click-and-collect postage">
                                     <div class="row">
                                         <div class="col-sm-2">
-                                            <input id="male" type="checkbox" class="hidden-checkbox">
-                                            <label for="male" class="real-checkbox" (click)="male = true; female = false;"
-                                                [ngClass]="{ 'real-checkbox-checked' : male }">
+                                            <input id="europe" type="checkbox" class="hidden-checkbox">
+                                            <label for="europe" class="real-checkbox" (click)="selectPostage('europe');"
+                                                [ngClass]="{ 'real-checkbox-checked' : orderObject?.postageType == 'europe' }">
                                             </label>
                                         </div>
                                         <div class="col-sm-8">
-                                            Express Delivery
+                                            <p>Europe Delivery</p>
                                         </div>
                                         <div class="col-sm-2">
-                                            &pound;2.50
+                                            <p>&pound;15.00</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="del-option-box" (click)="selectPostage('rest_of_world');">
+                                <a style="display: inline-block; text-align: center;" class="delivery-card card card--selectable rounded click-and-collect postage">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <input id="rest_of_world" type="checkbox" class="hidden-checkbox">
+                                            <label for="rest_of_world" class="real-checkbox" (click)="selectPostage('rest_of_world');"
+                                                [ngClass]="{ 'real-checkbox-checked' : orderObject?.postageType == 'rest_of_world' }">
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            Rest of World
+                                        </div>
+                                        <div class="col-sm-2">
+                                            &pound;20.00
                                         </div>
                                     </div>
                                 </a>
@@ -237,57 +287,68 @@
     </ng-container>
 
     <div class="account-overview" [ngStyle]="{ 'display' : checkoutPoints[3].current ? 'block' : 'none' }" style="margin-top: 35px !important;">
-        <h3 style="text-align: center; padding-bottom: 15px;">Please confirm your order details before completing your purchase.</h3>
+        <h3 style="text-align: center; padding-bottom: 15px;">Please confirm your order details before completing your
+            purchase.</h3>
         <div class="account-overview" style="margin-top: 35px !important">
-            <div class="cart-item">
-                <div class="row" style="padding-bottom: 15px;">
-                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
-                        <div class="cart-item-image"></div>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
-                        <div class="cart-item-details">
-                            <span class="item-name">name</span>
-                            <p class="item-description">description</p>
+            <div *ngIf="cart?.cartItems?.length > 0" class="account-overview" style="margin-top: 35px !important; border-bottom: none;">
+                <p style="text-align: center; padding-bottom: 20px;">You currently have <strong>{{cart?.cartItems.length}}</strong>
+                    items in your shopping basket.</p>
+                <div class="cart-item">
+                    <div *ngFor="let cartItem of cart?.cartItems" class="row" style="padding-bottom: 15px; padding-top: 15px;">
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
+                            <div class="cart-item-image"></div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
+                            <div class="cart-item-details">
+                                <span class="item-name"><strong>{{cartItem?.itemSpec.item.name}}</strong></span>
+                                <p class="item-description">{{cartItem?.itemSpec.item.description}}</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                            <div class="cart-item-size" style="text-align: center;">
+                                <span class="item-name"><strong>Size</strong></span>
+                                <div class="item-price">{{cartItem?.itemSpec.size?.size}}</div>
+                            </div>
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                            <div class="cart-item-colour" style="text-align: center;">
+                                <span class="item-name"><strong>Colour</strong></span>
+                                <div class="item-price">{{cartItem?.itemSpec.colour?.colour}}</div>
+                            </div>
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                            <div class="cart-item-amount" style="text-align: center;">
+                                <span class="item-name"><strong>Quantity</strong></span>
+                                <div class="item-price">{{cartItem?.quantity}}</div>
+                            </div>
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                            <div class="cart-item-price" style="text-align: center;">
+                                <span class="item-name"><strong>Price</strong></span>
+                                <div class="item-price">&pound;{{getPriceForItem(cartItem)}}</div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                            <div class="cart-item-price">
+                                <span class="item-name"></span>
+                                <br>
+                                <div class="item-price" (click)="removeItem(cartItem);" style="cursor:pointer; text-align: center; text-decoration: underline;"><i
+                                        class="fa fa-times" aria-hidden="true"></i></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-                        <div class="cart-item-size">
-                            <span class="item-name">Size</span>
-                            <div class="item-price">XL</div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-                        <div class="cart-item-amount">
-                            <span class="item-name">Quantity</span>
-                            <div class="item-price">??</div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-                        <div class="cart-item-colour">
-                            <span class="item-name">Color</span>
-                            <div class="item-price">blue</div>
-                        </div>
-                    </div>
-                    <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
-                        <div class="cart-item-price">
-                            <span class="item-name">Price</span>
-                            <div class="item-price">&pound;9.99</div>
-                        </div>
-                    </div>
-                    <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
-                        <div class="cart-item-price">
-                            <span class="item-name"></span>
-                            <br>
-                            <div class="item-price" style="cursor:pointer; text-decoration: underline;">Remove</div>
-                        </div>
-                    </div>
-                </div>
 
+                </div>
             </div>
         </div>
 
         <div class="padding-top: 50px;">
             <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+
+                <h3 *ngIf="orderObject?.postageType != ''" style="margin-top: 10px;">Postage: &pound;{{getPriceForPostage()}}</h3>
+                <h1>Total: &pound;{{calculateTotalPrice()}}</h1>
+                <br>
+
                 <div class="form-row">
                     <label for="card-info">Card Info</label>
                     <div id="card-info" #cardInfo></div>
@@ -295,7 +356,7 @@
                     <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
                 </div>
 
-                <button type="submit">Checkout</button>
+                <button style="margin-top: 10px;" type="submit">Confirm Order</button>
             </form>
         </div>
     </div>

@@ -4,18 +4,18 @@
     </div>
     <p>Here you can manage your wishlist, add items to your shopping bag or save them for another time!</p>
 
-    <div class="account-overview" style="margin-top: 35px !important;">
+    <div *ngIf="currentWishlist?.wishlistItems.length == 0" class="account-overview" style="margin-top: 35px !important;">
         <p class="page-details">Oh dear</p>
         <!-- Replace with method to get a response -->
-        <p>You currently have 'no items' in your wishlist.</p>
+        <p>You currently have no items in your wishlist.</p>
 
-        <div class="button">
+        <div (click)="redirect('/');" class="button">
             <h4>Let's go shopping</h4>
         </div>
     </div>
 
-    <div class="account-overview" style="margin-top: 35px !important">
-        <p style="text-align: center;">You currently have 'x' items in your wishlist.</p>
+    <div *ngIf="currentWishlist?.wishlistItems.length > 0" class="account-overview" style="margin-top: 35px !important">
+        <p style="text-align: center;">You currently have <strong>{{currentWishlist.wishlistItems.length}}</strong> items in your wishlist.</p>
         <div class="row">
             <div class="col-sm-6">
                 <div class="button">
@@ -29,21 +29,21 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div *ngFor="let wishlistItem of currentWishlist.wishlistItems" class="col-sm-4">
                 <div class="shop-item">
                     <div class="item-image" style="background-color: black; height: 300px;">
 
                     </div>
                     <div class="item-content">
-                        <span class="item-name" style="padding-top: 10px;">Item Name
-                            <span (click)="removeItem(wishlistItem);" style="float: right; margin: 5px; cursor:pointer; text-decoration: underline;">Remove
+                        <span class="item-name" style="padding-top: 10px;">{{wishlistItem?.itemSpec.item.name}}
+                            <span (click)="removeItemFromWishlist(wishlistItem);" style="float: right; margin: 5px; cursor:pointer; text-decoration: underline;">Remove
                                 from wishlist</span>
                         </span>
                         <br>
-                        <small class="item-description">Item Description</small>
-                        <p class="item-price">&pound;9.99</p>
+                        <small class="item-description">{{wishlistItem?.itemSpec.item.description}}</small>
+                        <p class="item-price">&pound;{{wishlistItem?.itemSpec.item.price}}</p>
                     </div>
-                    <div class="button" style="width: 100%;">
+                    <div (click)="navigate(wishlistItem);" class="button" style="width: 100%;">
                         <h4>Move to Bag</h4>
                     </div>
                 </div>

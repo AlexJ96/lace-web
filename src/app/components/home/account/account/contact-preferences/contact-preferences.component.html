@@ -18,13 +18,13 @@
             <br>
             <div class="col-md-1">
                 <input id="discountsEmail" type="checkbox" class="hidden-checkbox">
-                <label for="discountsEmail" class="real-checkbox" (click)="discountsEmail = !discountsEmail" [ngClass]="{ 'real-checkbox-checked' : discountsEmail }">
+                <label for="discountsEmail" class="real-checkbox" (click)="account.salesInfo = 'Email'; saveAccount();" [ngClass]="{ 'real-checkbox-checked' :  account.salesInfo == 'Email'}">
                     Email
                 </label>
             </div>
             <div class="col-md-1">
                 <input id="discountsText" type="checkbox" class="hidden-checkbox">
-                <label for="discountsText" class="real-checkbox" (click)="discountsText = !discountsText" [ngClass]="{ 'real-checkbox-checked' : discountsText }">
+                <label for="discountsText" class="real-checkbox" (click)="account.salesInfo = 'Text'; saveAccount();" [ngClass]="{ 'real-checkbox-checked' : account.salesInfo == 'Text'}">
                     Text
                 </label>
             </div>
@@ -36,22 +36,24 @@
             <br>
             <div class="col-md-1">
                 <input id="newStuffEmail" type="checkbox" class="hidden-checkbox">
-                <label for="newStuffEmail" class="real-checkbox" (click)="newStuffEmail = !newStuffEmail" [ngClass]="{ 'real-checkbox-checked' : newStuffEmail }">
+                <label for="newStuffEmail" class="real-checkbox" (click)="account.newStuffInfo = 'Email'; saveAccount();" [ngClass]="{ 'real-checkbox-checked' : account.newStuffInfo == 'Email' }">
                     Email
                 </label>
             </div>
             <div class="col-md-1">
                 <input id="newStuffText" type="checkbox" class="hidden-checkbox">
-                <label for="newStuffText" class="real-checkbox" (click)="newStuffText = !newStuffText" [ngClass]="{ 'real-checkbox-checked' : newStuffText }">
+                <label for="newStuffText" class="real-checkbox" (click)="account.newStuffInfo = 'Text'; saveAccount();" [ngClass]="{ 'real-checkbox-checked' : account.newStuffInfo == 'Text' }">
                     Text
                 </label>
             </div>
         </div>
 
-        <p>You're currently subscribed to our newsletter, would you like to unsubscribe?</p>
+        <p *ngIf="account.newsletter">You're currently subscribed to our newsletter, would you like to unsubscribe?</p>
+        <p *ngIf="!account.newsletter">You're currently unsubscribed to our newsletter, would you like to subscribe?</p>
         <!-- Sub or unsub -->
-        <div class="button">
-            <h4>Unsubscribe from newsletter </h4>
+        <div (click)="toggleNewsletter();" class="button">
+            <h4 *ngIf="account.newsletter">Unsubscribe from newsletter </h4>
+            <h4 *ngIf="!account.newsletter">Subscribe from newsletter </h4>
         </div>
 
     </div>

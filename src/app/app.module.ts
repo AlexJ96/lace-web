@@ -30,6 +30,9 @@ import { ShopComponent } from './components/home/shop/shop-overview/shop/shop.co
 import { ShopFilterMenuComponent } from './components/home/shop/shop-overview/shop/shop-filter-menu/shop-filter-menu.component';
 import { ShopItemComponent } from './components/home/shop/shop-overview/shop/shop-item/shop-item.component';
 import { CheckoutComponent } from './components/home/shop/checkout/checkout.component';
+import { AccountService } from './services/account.service';
+import { UtilService } from './services/util.service';
+import { ShopService } from './services/shop.service';
 
 @NgModule({
   declarations: [
@@ -65,7 +68,7 @@ import { CheckoutComponent } from './components/home/shop/checkout/checkout.comp
     )
   ],
   exports: [RouterModule],
-  providers: [ApiService, BlockerService], 
+  providers: [ApiService, BlockerService, AccountService, UtilService, ShopService], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

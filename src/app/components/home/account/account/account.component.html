@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="page-content">
-        <p class="page-greeting">Hey Alex</p>
+        <p class="page-greeting">Hey {{account?.firstName}}</p>
     </div>
     <p>Get a quick overview of your account here.</p>
 
@@ -14,7 +14,7 @@
                 Name
             </div>
             <div class="col-sm-2">
-                Mr. Alex Johnson
+                {{account?.title}}. {{account?.firstName}} {{account?.lastName}}
             </div>
         </div>
         <div class="row">
@@ -22,7 +22,7 @@
                 Email Address
             </div>
             <div class="col-sm-2">
-                alex_football_2k8@hotmail.co.uk
+                {{account?.emailAddress}}
             </div>
         </div>
         <div class="row">
@@ -30,7 +30,7 @@
                 Gender
             </div>
             <div class="col-sm-2">
-                -
+                {{getGender()}}
             </div>
         </div>
         <div class="row">
@@ -38,7 +38,7 @@
                 Date of Birth
             </div>
             <div class="col-sm-2">
-                28 May 1996
+                {{getDateOfBirth()}}
             </div>
         </div>
         <div class="button" (click)="editMyDetails();">

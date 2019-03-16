@@ -4,7 +4,7 @@
     </div>
     <p>Here you can view the items you've added to your shopping bag, confirm your selection and proceed to checkout.</p>
 
-    <div class="account-overview" style="margin-top: 35px !important;">
+    <div *ngIf="cart?.cartItems.length == 0" class="account-overview" style="margin-top: 35px !important;">
         <p class="page-details">Oh dear</p>
         <!-- Replace with method to get a response -->
         <p>You currently have 'no items' in your shopping bag.</p>
@@ -14,47 +14,49 @@
         </div>
     </div>
 
-    <div class="account-overview" style="margin-top: 35px !important">
+    <div *ngIf="cart?.cartItems.length > 0" class="account-overview" style="margin-top: 35px !important; border-bottom: none;">
+        <p style="text-align: center; padding-bottom: 20px;">You currently have <strong>{{cart?.cartItems.length}}</strong>
+            items in your shopping basket.</p>
         <div class="cart-item">
-            <div class="row" style="border-bottom: 1px solid #dedede; padding-bottom: 15px;">
-                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
+            <div *ngFor="let cartItem of cart?.cartItems" class="row" style="border-bottom: 1px solid #DCD0C0; padding-bottom: 15px; padding-top: 15px;">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
                     <div class="cart-item-image"></div>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
                     <div class="cart-item-details">
-                        <span class="item-name">name</span>
-                        <p class="item-description">description</p>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-                    <div class="cart-item-size">
-                        <span class="item-name">Size</span>
-                        <div class="item-price">XL</div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-                    <div class="cart-item-amount">
-                        <span class="item-name">Quantity</span>
-                        <div class="item-price">??</div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-                    <div class="cart-item-colour">
-                        <span class="item-name">Color</span>
-                        <div class="item-price">blue</div>
+                        <span class="item-name"><strong>{{cartItem?.itemSpec.item.name}}</strong></span>
+                        <p class="item-description">{{cartItem?.itemSpec.item.description}}</p>
                     </div>
                 </div>
                 <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
-                    <div class="cart-item-price">
-                        <span class="item-name">Price</span>
-                        <div class="item-price">&pound;9.99</div>
+                    <div class="cart-item-size" style="text-align: center;">
+                        <span class="item-name"><strong>Size</strong></span>
+                        <div class="item-price">{{cartItem?.itemSpec.size?.size}}</div>
                     </div>
                 </div>
                 <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                    <div class="cart-item-colour" style="text-align: center;">
+                        <span class="item-name"><strong>Colour</strong></span>
+                        <div class="item-price">{{cartItem?.itemSpec.colour?.colour}}</div>
+                    </div>
+                </div>
+                <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                    <div class="cart-item-amount" style="text-align: center;">
+                        <span class="item-name"><strong>Quantity</strong></span>
+                        <div class="item-price">{{cartItem?.quantity}}</div>
+                    </div>
+                </div>
+                <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                    <div class="cart-item-price" style="text-align: center;">
+                        <span class="item-name"><strong>Price</strong></span>
+                        <div class="item-price">&pound;{{getPriceForItem(cartItem)}}</div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
                     <div class="cart-item-price">
                         <span class="item-name"></span>
                         <br>
-                        <div class="item-price" style="cursor:pointer; text-decoration: underline;">Remove</div>
+                        <div class="item-price" (click)="removeItem(cartItem);" style="cursor:pointer; text-align: center; text-decoration: underline;"><i class="fa fa-times" aria-hidden="true"></i></div>
                     </div>
                 </div>
             </div>
@@ -62,10 +64,13 @@
         </div>
     </div>
 
-    <div class="account-overview">
+    <div *ngIf="cart?.cartItems.length > 0" class="account-overview">
         <div class="row justify-content-end">
             <div class="col-sm-12">
-                <div class="button" style="float: right;">
+                <h3 style="float: right;">Total Price: &pound;{{calculateTotalPrice()}}</h3>
+            </div>
+            <div class="col-sm-12">
+                <div (click)="navigate();" class="button" style="float: right;">
                     <h4>Checkout</h4>
                 </div>
             </div>

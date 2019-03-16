@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import * as decodeJwt from "jwt-decode";
 import { BlockerService } from "./blocker.service";
+import { AccountService } from './account.service';
 
 @Injectable()
 export class ApiService {
@@ -12,17 +13,7 @@ export class ApiService {
 
     async post(endpoint: String, body: any = {}, blocks: Array<string> = []) {
         this.blocker.block(blocks);
-        let token = localStorage.getItem("lbt");
-        if (token == null || token == undefined) {
-            token = await this.requestNewToken();
-        } else {
-            let tokenObject = this.getToken();
-            let expiry = tokenObject.exp;
-            let current = Date.now() / 1000;
-            if (expiry < current) {
-                //this.refreshToken();
-            }
-        }
+        
         return new Promise<any>(resolve => {
             this.http.post<any>(this.apiUrl + endpoint, JSON.stringify(body), {
                 headers: new HttpHeaders().append('LBT', 'LBTokenBearer ' + localStorage.getItem("lbt"))
@@ -75,6 +66,23 @@ export class ApiService {
         })
     }
 
+    getToken() {
+        try {
+            if (localStorage.getItem("lbt")) {
+                var token = localStorage.getItem("lbt");
+                if (token == null || token == undefined || token == "") {
+                    return null;
+                }
+                return decodeJwt(token);
+            } else {
+                return null;
+            }
+        }
+        catch (err) {
+            return null;
+        }
+    }
+
     getHttpOptions() {
         return {
             observe: "response" as 'response',
@@ -84,27 +92,10 @@ export class ApiService {
         };
     }
 
-    getToken() {
-        try {
-            if (localStorage.getItem("lbt")) {
-              var token = localStorage.getItem("lbt");
-              if (token == null || token == undefined || token == "") {
-                return null;
-              }
-              return decodeJwt(token);
-            } else {
-              return null;
-            }
-          }
-          catch (err) {
-            return null;
-          }
-    }
-
     async refreshToken() {
         let token = this.getToken();
         if (token != null || token != undefined) {
-            token = await this.post("token/refresh-token", {Account: token.info.account});
+            token = await this.post("token/refresh-token", { Account: token.info.token.account, Wishlist: token.info.token.wishlist, Cart: token.info.token.cart });
         } else {
             token = await this.requestNewToken();
         }
@@ -121,13 +112,17 @@ export class ApiService {
     async checkTokenForRefresh() {
         let token = this.getToken();
         if (token == null) {
-          await this.requestNewToken();
-        } else { 
-          let expiry = token.exp;
-          let current = Date.now() / 1000;
-          if (expiry < current) {
-            await this.refreshToken();
-          }
+            await this.requestNewToken();
+            console.log("Requesting Token");
+        } else {
+            let expiry = token.exp;
+            let current = Date.now() / 1000;
+            if (expiry < current) {
+                await this.refreshToken();
+                console.log("Refreshing Token");
+            } else {
+                return null;
+            }
         }
     }
 

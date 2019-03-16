@@ -7,55 +7,79 @@
     <p>Below are your saved addresses, which are used to make ordering smoother! Noticed something wrong, not a
             problem, quickly edit it!</p>
 
-    <!-- <div class="account-overview" style="margin-top: 35px !important;">
+    <div *ngIf="addresses?.length == 0" class="account-overview" style="margin-top: 35px !important;">
         <p class="page-details">Oh dear</p>
         <p>You don't have any saved addresses yet!</p>
 
         <div class="button">
             <h4>Add Address</h4>
         </div>
-    </div> -->
+    </div>
 
-    <div class="account-overview" style="margin-top: 35px !important;">
+    <div *ngIf="addresses?.length >= 0" class="account-overview" style="margin-top: 35px !important;">
 
-        <div class="account-overview" style="margin-top: 35px !important;">
-            <p class="page-details">Address 1</p>
+        <div *ngFor="let address of addresses; let i = index;" class="account-overview" style="margin-top: 35px !important;">
+            <p class="page-details">Address {{i+1}}</p>
             <div class="address" style="margin-top: 15px;">
-                <strong>Alex Johnson</strong>
-                <p>43 Queen Street</p>
-                <p>Balderton</p>
-                <p>Newark</p>
-                <p>Notts</p>
-                <p>NG24 3NS</p>
-                <div class="button">
+                <p>{{address.numberStreet}}</p>
+                <p>{{address.town}}</p>
+                <p>{{address.city}}</p>
+                <p>{{address.country}}</p>
+                <p>{{address.postcode}}</p>
+                <div (click)="editAddress = address; editingAddress = true;" class="button">
                     <h4>Edit Address</h4>
                 </div>
             </div>
         </div>
 
-        <div class="account-overview" style="margin-top: 35px !important;">
-            <p class="page-details">Address 2</p>
-            <div class="address" style="margin-top: 15px;">
-                <strong>Alex Johnson</strong>
-                <p>43 Queen Street</p>
-                <p>Newark</p>
-                <p>Notts</p>
-                <p>NG24 3NS</p>
-                <div class="button">
-                    <h4>Edit Address</h4>
+        <div class="new-address" *ngIf="editingAddress">
+
+            <br>
+            <div class="firstLine">
+                <h4>No. & Street</h4>
+                <div class="text-input">
+                    <input [(ngModel)]="editAddress.numberStreet" type="text" />
                 </div>
+            </div>
+
+            <br>
+            <div class="town">
+                <h4>Town</h4>
+                <div class="text-input">
+                    <input [(ngModel)]="editAddress.town" type="text" />
+                </div>
+            </div>
+
+            <br>
+            <div class="city">
+                <h4>City</h4>
+                <div class="text-input">
+                    <input [(ngModel)]="editAddress.city" type="text" />
+                </div>
+            </div>
+
+            <br>
+            <div class="country">
+                <h4>Country</h4>
+                <div class="text-input">
+                    <input [(ngModel)]="editAddress.country" type="text" />
+                </div>
+            </div>
+
+            <br>
+            <div class="postcode">
+                <h4>Postcode</h4>
+                <div class="text-input">
+                    <input [(ngModel)]="editAddress.postcode" type="text" />
+                </div>
+            </div>
+
+            <div class="button" (click)="editingAddress = false;">
+                <h4>Update Address</h4>
             </div>
         </div>
 
         <div class="new-address" *ngIf="addingAddress">
-
-            <br>
-            <div class="name">
-                <h4>Name</h4>
-                <div class="text-input">
-                    <input type="text" />
-                </div>
-            </div>
 
             <br>
             <div class="firstLine">
@@ -80,6 +104,14 @@
                     <input type="text" />
                 </div>
             </div>
+            
+            <br>
+            <div class="country">
+                <h4>Country</h4>
+                <div class="text-input">
+                    <input type="text" />
+                </div>
+            </div>
 
             <br>
             <div class="postcode">
@@ -95,7 +127,7 @@
         </div>
 
         <!-- Hidden when Adding Address -->
-        <div class="button" *ngIf="!addingAddress" (click)="addingAddress = true;">
+        <div class="button" *ngIf="!addingAddress && !editingAddress" (click)="addingAddress = true;">
             <h4>Add Another</h4>
         </div>
     </div>

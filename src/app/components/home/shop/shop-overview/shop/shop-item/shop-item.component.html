@@ -2,41 +2,73 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="product-image">
-                <div class="item-image" style="background-color: black; height: 400px;">
+                <div class="item-image" style="background-color: black; height: 500px;">
 
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="product-details">
-                <h2 class="item-name">Product Name </h2>
-                <p class="item-description"> Product Details </p>
-                <p class="item-price">&pound;9.99</p>
+                <h2 class="item-name">{{item?.item.name}}</h2>
+                <p class="item-description"> {{item?.item.description}} </p>
+                <p class="item-price">&pound;{{item?.item.price}}</p>
             </div>
+
             <div class="product-sizes">
-                <p class="font-settings" style="text-align: center;"><strong>Size Guide</strong></p>
+                <p class="font-settings" style="text-align: center; cursor: default;"><strong>Colour</strong></p>
                 <div class="row justify-content-center">
-                    <div *ngFor="let size of sizes" (click)="selectSize(size);" class="col-sm-1" style="width: auto; padding-right: 0;">
+                    <div *ngFor="let itemSpec of itemSpecList" (click)="selectColour(itemSpec);" class="col-sm-1" style="width: auto; padding-right: 0;">
                         <span class="page-info">
-                            <i class="fa" [ngClass]="{'page-disabled' : !size.inStock, 'size-selected' : size.selected }">{{size.sizeLabel}}</i>
+                            <i class="fa" [ngClass]="{'size-selected' : itemSpec.selected }">{{itemSpec.color}}</i>
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="button" style="margin: 0 auto; margin-top: 25px;">
+
+            <div class="product-sizes">
+                <p class="font-settings" style="text-align: center;"><strong>Size Guide</strong></p>
+                <div class="row justify-content-center">
+                    <div *ngFor="let itemSpec of itemSpecsForCurrentColor" (click)="selectSize(itemSpec);" class="col-sm-1"
+                        style="width: auto; padding-right: 0;">
+                        <span class="page-info">
+                            <i class="fa" [ngClass]="{'page-disabled' : itemSpec.quantity <= 0, 'size-selected' : itemSpec.size.selected }">{{itemSpec.size.size}}</i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="sizeSelected" class="product-sizes">
+                <p class="font-settings" style="text-align: center; cursor: default;"><strong>Quantity</strong></p>
+                <div class="row justify-content-center">
+                    <ng-container *ngFor="let amt of amount">
+                        <div *ngIf="amt.active" (click)="selectAmount(amt);" class="col-sm-1" style="width: auto; padding-right: 0;">
+                            <span class="page-info">
+                                <i class="fa" [ngClass]="{'page-disabled' : !amt.active, 'size-selected' : amt.selected }">{{amt.label}}</i>
+                            </span>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="button" (click)="submit();" style="margin: 0 auto; margin-top: 25px;">
                 <!-- <h4>Add to Bag</h4> -->
                 <h4>{{getButtonText()}}</h4>
             </div>
             <hr style="border-top: 1px solid #DCD0C0;">
             <div class="row" style="padding-bottom: 0;">
                 <div class="col-sm-6" style="text-align: center;">
-                    <span class="add-to-wishlist"><i class="fa fa-heart-o fa-lg" (click)="saveItemToWishlist(item);"
-                            style="margin: 5px; padding-right: 10px; cursor:pointer;"></i>Add to Wishlist
+                    <span *ngIf="!item?.wishlist" (click)="saveItemToWishlist(item);" class="add-to-wishlist">
+                        <i class="fa fa-heart-o fa-lg" style="margin: 5px; padding-right: 10px; cursor:pointer;"></i>Add
+                        to Wishlist
+                    </span>
+                    <span *ngIf="item?.wishlist" (click)="removeItemFromWishlist(item);" class="add-to-wishlist">
+                        <i class="fa fa-heart fa-lg" style="color: red; margin: 5px; padding-right: 10px; cursor:pointer;"></i>Remove
+                        from Wishlist
                     </span>
                     <!-- Or remove from wishlist -->
                 </div>
                 <div class="col-sm-6" style="text-align: center;">
-                    <p>Product No. 29382</p>
+                    <p>Product No. {{item?.id}}</p>
                 </div>
             </div>
             <hr style="border-top: 1px solid #DCD0C0;">

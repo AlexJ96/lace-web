@@ -19,7 +19,7 @@
 
                                     <ul class="filter-ul" [ngStyle]="{'display' : sizesFilterOpen ==  false ? 'none' : 'block'}"
                                         (click)="$event.stopPropagation()">
-                                        <li *ngFor="let sizeFilters of filters?.SIZE_FILTERS;" style="max-height: 30px;">
+                                        <li *ngFor="let sizeFilters of filters?.SIZE_FILTERS;" style="max-height: 35px;">
                                             <input id="{{sizeFilters.key}}" type="checkbox" class="hidden-checkbox">
                                             <label for="{{sizeFilters.key}}" class="real-checkbox" (click)="sizeFilters.checked = !sizeFilters.checked"
                                                 [ngClass]="{ 'real-checkbox-checked' : sizeFilters.checked }">
@@ -39,7 +39,7 @@
                                     <ul class="filter-ul" [ngStyle]="{'display' : coloursFilterOpen ==  false ? 'none' : 'block'}"
                                         (click)="$event.stopPropagation()">
 
-                                        <li *ngFor="let colourFilter of filters?.COLOUR_FILTERS;" style="max-height: 30px;">
+                                        <li *ngFor="let colourFilter of filters?.COLOUR_FILTERS;" style="max-height: 35px;">
                                             <input id="{{colourFilter.key}}" type="checkbox" class="hidden-checkbox">
                                             <label for="{{colourFilter.key}}" class="real-checkbox" (click)="colourFilter.checked = !colourFilter.checked"
                                                 [ngClass]="{ 'real-checkbox-checked' : colourFilter.checked }">
@@ -59,7 +59,7 @@
                                     <ul class="filter-ul" [ngStyle]="{'display' : brandsFilterOpen ==  false ? 'none' : 'block'}"
                                         (click)="$event.stopPropagation()">
 
-                                        <li *ngFor="let brandFilter of filters?.BRAND_FILTERS;" style="max-height: 30px;">
+                                        <li *ngFor="let brandFilter of filters?.BRAND_FILTERS;" style="max-height: 35px;">
                                             <input id="{{brandFilter.key}}" type="checkbox" class="hidden-checkbox">
                                             <label for="{{brandFilter.key}}" class="real-checkbox" (click)="brandFilter.checked = !brandFilter.checked"
                                                 [ngClass]="{ 'real-checkbox-checked' : brandFilter.checked }">
@@ -165,20 +165,24 @@
             </div>
         </div> -->
 
-        <div class="row">
-            <div class="col-sm-4">
+        <div class="row" style="display: block;">
+            <div *ngFor="let item of items" style="margin-bottom: 25px;" class="col-sm-4">
                 <div class="shop-item">
                     <div class="item-image" style="background-color: black; height: 200px;">
 
                     </div>
                     <hr style="border-top: 1px solid #DCD0C0;">
                     <div class="item-content">
-                        <span class="item-name" style="padding-top: 10px;">Item Name
-                                <i class="fa fa-heart-o fa-lg" (click)="saveItemToWishlist(item);" style="float: right; margin: 5px; padding-right: 10px; cursor:pointer;"></i>
+                        <span class="item-name" (click)="loadItemPage(item);" style="cursor: pointer; padding-top: 10px;">{{item?.item?.name}}
                         </span>
+                        <i *ngIf="!item.wishlist" class="fa fa-heart-o fa-lg" (click)="saveItemToWishlist(item);"
+                            style="float: right; margin: 5px; padding-right: 10px; cursor:pointer;"></i>
+                        <i *ngIf="item.wishlist" class="fa fa-heart fa-lg" (click)="removeItemFromWishlist(item);"
+                            style="color: red; float: right; margin: 5px; padding-right: 10px; cursor:pointer;"></i>
+
                         <br>
-                        <small class="item-description" style="text-transform: initial;">Item Description</small>
-                        <p class="item-price">&pound;9.99</p>
+                        <small class="item-description" style="text-transform: initial;">{{item?.item?.description}}</small>
+                        <p class="item-price">&pound;{{item?.item?.price}}</p>
                     </div>
                 </div>
             </div>

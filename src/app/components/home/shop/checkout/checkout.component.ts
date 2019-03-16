@@ -4,17 +4,20 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnInit
 } from '@angular/core';
 
 import { NgForm } from '@angular/forms';
+import { AccountService } from 'src/app/services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'checkout',
   templateUrl: 'checkout.component.html',
   styleUrls: ['checkout.component.css', '../../account/account/account.component.css']
 })
-export class CheckoutComponent implements AfterViewInit, OnDestroy {
+export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild('cardInfo') cardInfo: ElementRef;
 
   card: any;
@@ -27,25 +30,138 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy {
     { position: 3, completed: false, current: false },
     { position: 4, completed: false, current: false },
   ];
-  deliveryType: string = "";
 
-  constructor(private cd: ChangeDetectorRef) { }
+  orderObject: any = {
+    address: {
+      numberStreet: "",
+      town: "",
+      city: "",
+      country: "",
+      postcode: ""
+    }
+  };
 
+  addresses: any;
+  account: any;
+  cart: any;
+
+  constructor(private cd: ChangeDetectorRef, private accountService: AccountService, private route: Router) { }
+
+  async ngOnInit() {
+    this.account = this.accountService.getAccount();
+    this.cart = await this.accountService.loadCart();
+    if (this.cart.cartItems.length == 0) {
+      this.cart = await this.accountService.refreshCartData();
+    }
+
+    if (this.cart.cartItems.length == 0) {
+      this.route.navigateByUrl('account/shopping-bag');
+    }
+    this.addresses = await this.accountService.loadAddresses();
+    if (this.addresses[0] != undefined) {
+      this.orderObject.address.numberStreet = this.addresses[0].numberStreet;
+      this.orderObject.address.town = this.addresses[0].town;
+      this.orderObject.address.city = this.addresses[0].city;
+      this.orderObject.address.country = this.addresses[0].country;
+      this.orderObject.address.postcode = this.addresses[0].postcode;
+    }
+  }
+
+  async removeItem(cartItem) {
+    let response = await this.accountService.removeItemFromCart(cartItem);
+    if (response == "true") {
+      this.cart = await this.accountService.loadCart();
+      if (this.cart.cartItems.length == 0) {
+        this.cart = await this.accountService.refreshCartData();
+        if (this.cart.cartItems.length == 0) {
+          this.route.navigateByUrl('account/shopping-bag');
+        }
+      }
+    }
+  }
+
+  calculateTotalPrice() {
+    let total = 0;
+    let postageTotal = this.getPriceForPostage();
+
+    if (this.cart == undefined || this.cart == null)
+      return postageTotal.toFixed(2);
+
+    this.cart.cartItems.forEach(element => {
+      total += +this.getPriceForItem(element);
+    });
+
+    this.orderObject.totalPrice = (total + postageTotal).toFixed(2);
+    return (total + postageTotal).toFixed(2);
+  }
+
+  getPriceForItem(cartItem) {
+    return (cartItem.itemSpec.item.price * cartItem.quantity).toFixed(2);
+  }
+
+  getPriceForPostage() {
+    if (this.orderObject.postageType == 'uk_standard')
+      return 4.50;
+    else if (this.orderObject.postageType == 'uk_next_day')
+      return 6.25;
+    else if (this.orderObject.postageType == 'europe')
+      return 15.00;
+    else if (this.orderObject.postageType == 'rest_of_world')
+      return 20.00;
+    else
+      return 0.00;
+  }
 
   chooseDeliveryMethod(deliveryType) {
-    this.deliveryType = deliveryType;
+    this.orderObject.deliveryType = deliveryType;
+    this.orderObject.postageType = "";
     this.checkoutPoints[0].completed = true;
     this.checkoutPoints[0].current = false;
     this.checkoutPoints[1].current = true;
   }
 
   confirmAddress() {
+    if (this.checkDetails() == false)
+      return;
     this.checkoutPoints[1].completed = true;
     this.checkoutPoints[1].current = false;
     this.checkoutPoints[2].current = true;
+    if (this.orderObject.deliveryType == 'collect') {
+      this.confirmPostage();
+    }
+  }
+
+  checkDetails() {
+    if (this.account.title == undefined || this.account.title == "")
+      return false;
+    if (this.account.firstName == undefined || this.account.firstName == "")
+      return false;
+    if (this.account.lastName == undefined || this.account.lastName == "")
+      return false;
+    if (this.account.phoneNumber == undefined || this.account.firstName == "")
+      return false;
+    if (this.orderObject.deliveryType == 'collect') {
+      return true;
+    } else {
+      if (this.orderObject.address.numberStreet == undefined || this.orderObject.address.numberStreet == "")
+        return false;
+      if (this.orderObject.address.town == undefined || this.orderObject.address.town == "")
+        return false;
+      if (this.orderObject.address.city == undefined || this.orderObject.address.city == "")
+        return false;
+      if (this.orderObject.address.postcode == undefined || this.orderObject.address.postcode == "")
+        return false;
+    }
+    return true;
+  }
+
+  selectPostage(postageType) {
+    this.orderObject.postageType = postageType;
   }
 
   confirmPostage() {
+    if (this.orderObject.deliveryType == 'post' && (this.orderObject.postageType == undefined || this.orderObject.postageType == ""))
+      return;
     this.checkoutPoints[2].completed = true;
     this.checkoutPoints[2].current = false;
     this.checkoutPoints[3].current = true;
@@ -57,6 +173,9 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy {
   }
 
   goBackToStage(stage) {
+    if (stage == 3 && this.orderObject.deliveryType == 'collect') {
+      return;
+    }
     let currentStage = this.checkoutPoints.find(c => c.current == true);
     if (currentStage.position <= parseInt(stage))
       return;
@@ -67,7 +186,7 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy {
     });
     checkoutPoint.current = true;
 
-    for (let i = 3; i > parseInt(stage)-1; i--) {
+    for (let i = 3; i > parseInt(stage) - 1; i--) {
       this.checkoutPoints[i].completed = false;
     }
   }
@@ -80,8 +199,10 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.card.removeEventListener('change', this.cardHandler);
-    this.card.destroy();
+    if (this.card != undefined) {
+      this.card.removeEventListener('change', this.cardHandler);
+      this.card.destroy();
+    }
   }
 
   onChange({ error }) {
@@ -99,7 +220,10 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy {
     if (error) {
       console.log('Something is wrong:', error);
     } else {
-      console.log('Success!', token);
+      this.orderObject.account = this.account;
+      this.orderObject.paymentToken = token;
+      console.log(this.orderObject);
+      this.accountService.completeOrder(this.orderObject);
       // ...send the token to the your backend to process the charge
     }
   }

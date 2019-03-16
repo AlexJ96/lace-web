@@ -11,13 +11,13 @@
         <div class="row">
             <div class="col-md-1">
                 <input id="male" type="checkbox" class="hidden-checkbox">
-                <label for="male" class="real-checkbox" (click)="male = true; female = false;" [ngClass]="{ 'real-checkbox-checked' : male }">
+                <label for="male" class="real-checkbox" (click)="account.gender = 'Male'" [ngClass]="{ 'real-checkbox-checked' : account?.gender == 'Male' }">
                     Male
                 </label>
             </div>
             <div class="col-md-1">
                 <input id="male" type="checkbox" class="hidden-checkbox">
-                <label for="male" class="real-checkbox" (click)="male = false; female = true;" [ngClass]="{ 'real-checkbox-checked' : female }">
+                <label for="male" class="real-checkbox" (click)="account.gender = 'Female'" [ngClass]="{ 'real-checkbox-checked' : account?.gender == 'Female' }">
                     Female
                 </label>
             </div>
@@ -27,7 +27,7 @@
         <div class="title">
             <h4>Title</h4>
             <div class="text-input">
-                <select id="title" name="title">
+                <select [(ngModel)]="account.title" id="title" name="title">
                     <option disabled value="">Please select</option>
                     <option value="Miss">Miss.</option>
                     <option selected="selected" value="Mr">Mr.</option>
@@ -41,7 +41,7 @@
         <div class="firstName">
             <h4>First Name</h4>
             <div class="text-input">
-                <input type="text" />
+                <input [(ngModel)]="account.firstName" type="text" />
             </div>
         </div>
 
@@ -49,7 +49,7 @@
         <div class="lastName">
             <h4>Last Name</h4>
             <div class="text-input">
-                <input type="text" />
+                <input [(ngModel)]="account.lastName" type="text" />
             </div>
         </div>
 
@@ -57,7 +57,7 @@
         <div class="dOB">
             <h4>Date of Birth</h4>
             <div class="text-input" style="display: inline-block; width: 10%;">
-                <select id="day" name="day">
+                <select [(ngModel)]="account.dateOfBirth.dayOfMonth" id="day" name="day">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -92,23 +92,23 @@
                 </select>
             </div>
             <div class="text-input" style="display: inline-block; margin-left: 10px !important; width: 10%;">
-                <select id="month" name="month">
-                    <option value="1">Jan</option>
-                    <option value="2">Feb</option>
-                    <option value="3">Mar</option>
-                    <option value="4">Apr</option>
-                    <option value="5">May</option>
-                    <option value="6">Jun</option>
-                    <option value="7">Jul</option>
-                    <option value="8">Aug</option>
-                    <option value="9">Sep</option>
-                    <option value="10">Oct</option>
-                    <option value="11">Nov</option>
-                    <option value="12">Dec</option>
+                <select [(ngModel)]="account.dateOfBirth.month" id="month" name="month">
+                    <option value="0">Jan</option>
+                    <option value="1">Feb</option>
+                    <option value="2">Mar</option>
+                    <option value="3">Apr</option>
+                    <option value="4">May</option>
+                    <option value="5">Jun</option>
+                    <option value="6">Jul</option>
+                    <option value="7">Aug</option>
+                    <option value="8">Sep</option>
+                    <option value="9">Oct</option>
+                    <option value="10">Nov</option>
+                    <option value="11">Dec</option>
                 </select>
             </div>
             <div class="text-input" style="display: inline-block; margin-left: 10px !important; width: 10%;">
-                <select id="year" name="year">
+                <select [(ngModel)]="account.dateOfBirth.year" id="year" name="year">
                     <option value="2008">2008</option>
                     <option value="2007">2007</option>
                     <option value="2006">2006</option>
@@ -192,7 +192,7 @@
                 </select>
             </div>
         </div>
-        <div class="button">
+        <div (click)="saveAccount();" class="button">
             <h4>Confirm Changes</h4>
         </div>
     </div>

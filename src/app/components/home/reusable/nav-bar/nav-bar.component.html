@@ -6,25 +6,25 @@
         <h1 [routerLink]="['']">𝕷𝖆𝖈𝖊 𝕭𝖔𝖚𝖙𝖎𝖖𝖚𝖊</h1>
         <ul class="site-nav-ul">
             <li>
-                <a (mouseenter)="showMenu = true; menu = 'Sale'" href="" style="color: red;">Sale</a>
+                <a (mouseenter)="showMenu = true; menu = 'Sale'" href="">New</a>
             </li>
             <li>
-                <a (mouseenter)="showMenu = true; menu = 'new'" [routerLink]="['/shop/category/new']" href="">New!</a>
+                <a (mouseenter)="showMenu = true; menu = 'new'" [routerLink]="['/shop/category/new']" href="">Clothing</a>
             </li>
             <li>
-                <a [routerLink]="['/shop/category/clothing']" href="">Clothing</a>
+                <a [routerLink]="['/shop/category/clothing']" href="">Brands</a>
             </li>
             <li>
-                <a [routerLink]="['/shop/category/dresses']" href="">Dresses</a>
+                <a [routerLink]="['/shop/category/clothing']" href="">Dresses</a>
             </li>
             <li>
-                <a [routerLink]="['/shop/category/tops']" href="">Tops</a>
+                <a [routerLink]="['/shop/category/dresses']" href="">Accessories</a>
             </li>
             <li>
-                <a [routerLink]="['/shop/category/shoes']" href="">Shoes</a>
+                <a [routerLink]="['/shop/category/shoes']" href="">Footwear</a>
             </li>
             <li>
-                <a href="">Accessories</a>
+                <a style="color: red;" href="">Sale</a>
             </li>
         </ul>
         <ul class="personal-nav">
@@ -32,13 +32,13 @@
                 <i class="fa fa-search" aria-hidden="true"></i>
             </li>
             <li>
-                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                <i (click)="redirect('/account');" class="fa fa-user-circle-o" aria-hidden="true"></i>
             </li>
             <li>
-                <i class="fa fa-heart" aria-hidden="true"></i>
+                <i (click)="redirect('/account/wishlist');" class="fa fa-heart" aria-hidden="true"></i>
             </li>
             <li>
-                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                <i (click)="redirect('/account/shopping-bag');" class="fa fa-shopping-bag" aria-hidden="true"></i>
             </li>
         </ul>
     </div>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'top-nav-bar',
@@ -44,9 +45,15 @@ export class NavBarComponent {
         }
     ];
 
+    constructor(private route: Router) {}
+
     getMenuContent() {
         console.log(this.menuContent.find(m => m.title == this.menu));
         return this.menuContent.find(m => m.title == this.menu);
+    }
+
+    redirect(link) {
+        this.route.navigateByUrl(link);
     }
 
 }
