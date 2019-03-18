@@ -26,11 +26,11 @@ export class ShopItemComponent implements OnInit {
         { label: '3', amount: 3, active: true, selected: false },
         { label: '4', amount: 4, active: true, selected: false },
         { label: '5', amount: 5, active: true, selected: false },
-        { label: '6', amount: 6, active: true, selected: false },
-        { label: '7', amount: 7, active: true, selected: false },
-        { label: '8', amount: 8, active: true, selected: false },
-        { label: '9', amount: 9, active: true, selected: false },
-        { label: '10', amount: 10, active: true, selected: false },
+        // { label: '6', amount: 6, active: true, selected: false },
+        // { label: '7', amount: 7, active: true, selected: false },
+        // { label: '8', amount: 8, active: true, selected: false },
+        // { label: '9', amount: 9, active: true, selected: false },
+        // { label: '10', amount: 10, active: true, selected: false },
     ];
 
     item: any;
@@ -41,6 +41,10 @@ export class ShopItemComponent implements OnInit {
     itemSpecsForCurrentColor: any;
     sizeSelected: boolean = false;
 
+    alertItem: any;
+    showAlert: boolean = false;
+    addedTo: string = "";
+
     constructor(private account: AccountService, private shop: ShopService) {}
 
     async ngOnInit() {
@@ -50,6 +54,7 @@ export class ShopItemComponent implements OnInit {
         }
         this.item = JSON.parse(localStorage.getItem("item"));
         this.itemSpecList = await this.shop.getSpecForItem(this.item.item.id);
+        console.log(this.itemSpecList);
         
         let index = 0;
         this.itemSpecList.forEach(element => {
@@ -111,6 +116,9 @@ export class ShopItemComponent implements OnInit {
         let currentItemSpec = this.itemSpecList.find(itemSpec => itemSpec.selected);
         let itemSpec = currentItemSpec.itemSpecs.find(itemSpec => itemSpec.size.selected);
         await this.account.addItemToCart(itemSpec, this.itemAmount);
+        this.alertItem = itemSpec;
+        this.addedTo = "Shopping Bag";
+        this.showAlertInterval();
     }
 
     getButtonText() {
@@ -125,6 +133,9 @@ export class ShopItemComponent implements OnInit {
         let response = await this.account.addItemToWishlist(itemId);
         if (response == 'true') {
             item.wishlist = true;
+            this.alertItem = item;
+            this.addedTo = "Wishlist";
+            this.showAlertInterval();
             this.currentWishlist = await this.account.loadWishlist();
             if (this.currentWishlist.wishlistItems.length == 0) {
                 this.currentWishlist = this.account.getWishlist();
@@ -144,5 +155,18 @@ export class ShopItemComponent implements OnInit {
                 }
             }
         }
+    }
+
+    
+    showAlertInterval() {
+        let index = 5;
+        let interval = setInterval(() => {
+            this.showAlert = true;
+            if (index <= 0) {
+                clearInterval(interval);
+                this.showAlert = false;
+            }
+            index--;
+        }, 1000);
     }
 }

@@ -145,3 +145,18 @@ p, ul, menu, dir, h3, h4 {
 .justify-content-center {
     justify-content: center!important;
 }
+
+.wish-cart-popup {
+    width: 250px;
+    height: 175px;
+    margin-top: -40px;
+    margin-right: 10px;
+    right: 0;
+    z-index: 9999;
+    background-color: #f4f4f4;
+    float: right;
+    display: block;
+	position: fixed;
+    border: 2px solid #DCD0C0;
+    border-radius: 1px;
+}

@@ -13,6 +13,7 @@ import { ShoppingBagComponent } from './components/home/account/account/shopping
 import { ShopComponent } from './components/home/shop/shop-overview/shop/shop.component';
 import { ShopItemComponent } from './components/home/shop/shop-overview/shop/shop-item/shop-item.component';
 import { CheckoutComponent } from './components/home/shop/checkout/checkout.component';
+import { CompleteComponent } from './components/home/shop/checkout/complete/complete.component';
 
 export const routing: Routes = [
     {
@@ -28,6 +29,7 @@ export const routing: Routes = [
             { path: 'account/wishlist', component: WishlistComponent },
             { path: 'account/shopping-bag', component: ShoppingBagComponent },
             { path: 'account/shopping-bag/checkout', component: CheckoutComponent },
+            { path: 'account/shopping-bag/complete', component: CompleteComponent },
             { path: 'shop', component: ShopComponent },
             { path: 'shop/product/:id', component: ShopItemComponent }
         ]

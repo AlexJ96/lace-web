@@ -1,4 +1,16 @@
 <!-- <shop-filter-menu></shop-filter-menu> -->
+<div class="wish-cart-popup" [ngStyle]="{'display' : showAlert == true ? 'block' : 'none'}">
+    <div class="page-content">
+        <p class="page-greeting" style="font-size: 2rem; text-align: center; padding-top: 10px;">Added to Wishlist</p>
+    </div>
+    <p style="text-align: center; padding-top: 10px; width: 80%; margin: 0 auto;">{{alertItem?.item.name}} has been added to your Wishlist</p>
+
+    <div class="account-overview"  style="border-bottom: 0; margin-top: 35px !important;">
+        <div (click)="navigate();" style="width: 80%; margin: 0 auto;" class="button">
+            <h4>View Wishlist</h4>
+        </div>
+    </div>
+</div>
 
 <div class="page-settings">
     <div class="row">
@@ -168,15 +180,14 @@
         <div class="row" style="display: block;">
             <div *ngFor="let item of items" style="margin-bottom: 25px;" class="col-sm-4">
                 <div class="shop-item">
-                    <div class="item-image" style="background-color: black; height: 200px;">
-
+                    <div class="item-image" style="width: 100%; max-height: 500px;">
+                        <img style="max-width: 100%; max-height: 100%;" src="{{item?.url}}"/>
                     </div>
                     <hr style="border-top: 1px solid #DCD0C0;">
                     <div class="item-content">
                         <span class="item-name" (click)="loadItemPage(item);" style="cursor: pointer; padding-top: 10px;">{{item?.item?.name}}
                         </span>
-                        <i *ngIf="!item.wishlist" class="fa fa-heart-o fa-lg" (click)="saveItemToWishlist(item);"
-                            style="float: right; margin: 5px; padding-right: 10px; cursor:pointer;"></i>
+                        <i *ngIf="!item.wishlist" class="fa fa-heart-o fa-lg" (click)="saveItemToWishlist(item);" style="float: right; margin: 5px; padding-right: 10px; cursor:pointer;"></i>
                         <i *ngIf="item.wishlist" class="fa fa-heart fa-lg" (click)="removeItemFromWishlist(item);"
                             style="color: red; float: right; margin: 5px; padding-right: 10px; cursor:pointer;"></i>
 

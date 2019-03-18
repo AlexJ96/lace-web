@@ -46,6 +46,8 @@ export class ShopComponent implements OnInit {
     }
 
     currentWishlist: any;
+    showAlert: boolean = false;
+    alertItem: any;
 
     constructor(private router: Router, private route: ActivatedRoute, private api: ApiService, private shopService: ShopService, private account: AccountService) { }
 
@@ -61,6 +63,10 @@ export class ShopComponent implements OnInit {
     loadItemPage(item) {
         localStorage.setItem("item", JSON.stringify(item));
         this.router.navigateByUrl("shop/product/" + item.id);
+    }
+
+    navigate() {
+        this.router.navigateByUrl("account/wishlist");
     }
 
     async loadShopItems() {
@@ -81,6 +87,7 @@ export class ShopComponent implements OnInit {
         this.items.forEach(item => {
             item.wishlist = false;
         });
+        console.log(this.items);
 
         this.currentWishlist = await this.account.loadWishlist();
         if (this.currentWishlist.wishlistItems.length == 0) {
@@ -327,6 +334,9 @@ export class ShopComponent implements OnInit {
 
     async saveItemToWishlist(item) {
         console.log(item);
+        this.alertItem = item;
+        this.showAlertInterval();
+
         let itemId = item.item.id;
         let response = await this.account.addItemToWishlist(itemId);
         if (response == 'true') {
@@ -336,6 +346,18 @@ export class ShopComponent implements OnInit {
                 this.currentWishlist = this.account.getWishlist();
             }
         }
+    }
+
+    showAlertInterval() {
+        let index = 5;
+        let interval = setInterval(() => {
+            this.showAlert = true;
+            if (index <= 0) {
+                clearInterval(interval);
+                this.showAlert = false;
+            }
+            index--;
+        }, 1000);
     }
 
     async removeItemFromWishlist(item) {

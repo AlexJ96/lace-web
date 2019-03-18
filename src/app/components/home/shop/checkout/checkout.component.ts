@@ -11,6 +11,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { AccountService } from 'src/app/services/account.service';
 import { Router } from '@angular/router';
+import { ShopService } from 'src/app/services/shop.service';
 
 @Component({
   selector: 'checkout',
@@ -18,6 +19,7 @@ import { Router } from '@angular/router';
   styleUrls: ['checkout.component.css', '../../account/account/account.component.css']
 })
 export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
+
   @ViewChild('cardInfo') cardInfo: ElementRef;
 
   card: any;
@@ -33,6 +35,8 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
 
   orderObject: any = {
     address: {
+      id: "",
+      account: "",
       numberStreet: "",
       town: "",
       city: "",
@@ -44,8 +48,10 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
   addresses: any;
   account: any;
   cart: any;
+  discount = 0.00;
+  freeDelivery: boolean = false;
 
-  constructor(private cd: ChangeDetectorRef, private accountService: AccountService, private route: Router) { }
+  constructor(private cd: ChangeDetectorRef, private accountService: AccountService, private route: Router, private shop: ShopService) { }
 
   async ngOnInit() {
     this.account = this.accountService.getAccount();
@@ -59,12 +65,15 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
     }
     this.addresses = await this.accountService.loadAddresses();
     if (this.addresses[0] != undefined) {
+      this.orderObject.address.id = this.addresses[0].id;
+      this.orderObject.address.account = this.addresses[0].account;
       this.orderObject.address.numberStreet = this.addresses[0].numberStreet;
       this.orderObject.address.town = this.addresses[0].town;
       this.orderObject.address.city = this.addresses[0].city;
       this.orderObject.address.country = this.addresses[0].country;
       this.orderObject.address.postcode = this.addresses[0].postcode;
     }
+    this.calculateTotalPrice();
   }
 
   async removeItem(cartItem) {
@@ -91,7 +100,8 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
       total += +this.getPriceForItem(element);
     });
 
-    this.orderObject.totalPrice = (total + postageTotal).toFixed(2);
+    console.log(this.discount);
+    this.orderObject.totalPrice = ((total + postageTotal) - this.discount).toFixed(2);
     return (total + postageTotal).toFixed(2);
   }
 
@@ -214,6 +224,20 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
     this.cd.detectChanges();
   }
 
+  async applyDiscount() {
+    if (this.orderObject.discountCode == undefined || this.orderObject.discountCode == "")
+      return;
+    let discount = await this.shop.applyDiscount(this.orderObject.discountCode, this.orderObject.totalPrice);
+    if (discount == 9999.99) {
+      this.discount = this.getPriceForPostage();
+      this.freeDelivery = true;
+    } else {
+      this.discount = discount;
+    }
+    this.calculateTotalPrice();
+    console.log(this.discount);
+  }
+
   async onSubmit(form: NgForm) {
     const { token, error } = await stripe.createToken(this.card);
 
@@ -222,9 +246,12 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
     } else {
       this.orderObject.account = this.account;
       this.orderObject.paymentToken = token;
-      console.log(this.orderObject);
-      this.accountService.completeOrder(this.orderObject);
-      // ...send the token to the your backend to process the charge
+      this.orderObject.cart = this.cart;
+      let orderComplete = await this.accountService.completeOrder(this.orderObject);
+      if (orderComplete == 'true') {
+        console.log("Order Complete");
+        this.route.navigateByUrl('account/shopping-bag/complete')
+      }
     }
   }
 }

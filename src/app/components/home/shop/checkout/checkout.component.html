@@ -88,12 +88,15 @@
     <ng-container *ngIf="checkoutPoints[1].current">
         <div style="width: 60%; margin: 0 auto;">
             <div class="delivery-options">
-                <h3 *ngIf="orderObject?.deliveryType != 'collect'" style="text-align: center; padding-bottom: 15px;">Please confirm your address or enter a new one
+                <h3 *ngIf="orderObject?.deliveryType != 'collect'" style="text-align: center; padding-bottom: 15px;">Please
+                    confirm your address or enter a new one
                     for this order</h3>
-                    <h3 *ngIf="orderObject?.deliveryType == 'collect'" style="text-align: center; padding-bottom: 15px;">Please confirm your personal details for this order</h3>
+                <h3 *ngIf="orderObject?.deliveryType == 'collect'" style="text-align: center; padding-bottom: 15px;">Please
+                    confirm your personal details for this order</h3>
                 <div class="row justify-content-center">
                     <div class="col-sm-6">
-                        <h3 *ngIf="orderObject?.deliveryType != 'collect'" style="padding-bottom: 15px;">Personal Details</h3>
+                        <h3 *ngIf="orderObject?.deliveryType != 'collect'" style="padding-bottom: 15px;">Personal
+                            Details</h3>
                         <div class="title">
                             <h4>Title</h4>
                             <div class="text-input" style="width: 50%;">
@@ -342,11 +345,34 @@
             </div>
         </div>
 
+        <div class="account-overview" style="margin-top: 15px !important">
+            <div class="row justify-content-end">
+                <div class="col-sm-2">
+                    <div class="country">
+                        <h4>Discount Code</h4>
+                        <div class="text-input" style="width: 90%;">
+                            <input [(ngModel)]="orderObject.discountCode" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-sm-2">
+                    <div class="button" (click)="applyDiscount();" style="width: 60%; margin: 0 auto !important;">
+                        <h4>Apply</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="padding-top: 50px;">
             <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
 
-                <h3 *ngIf="orderObject?.postageType != ''" style="margin-top: 10px;">Postage: &pound;{{getPriceForPostage()}}</h3>
-                <h1>Total: &pound;{{calculateTotalPrice()}}</h1>
+                <h3 *ngIf="orderObject?.postageType != '' && freeDelivery" style="margin-top: 10px;">Postage:
+                    Free</h3>
+                <h3 *ngIf="orderObject?.postageType != '' && !freeDelivery" style="margin-top: 10px;">Postage:
+                            &pound;{{getPriceForPostage()}}</h3>
+                <h1>Total: &pound;{{orderObject.totalPrice}}</h1>
                 <br>
 
                 <div class="form-row">

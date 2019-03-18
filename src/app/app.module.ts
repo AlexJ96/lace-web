@@ -33,6 +33,7 @@ import { CheckoutComponent } from './components/home/shop/checkout/checkout.comp
 import { AccountService } from './services/account.service';
 import { UtilService } from './services/util.service';
 import { ShopService } from './services/shop.service';
+import { CompleteComponent } from './components/home/shop/checkout/complete/complete.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ShopService } from './services/shop.service';
     ShopComponent,
     ShopFilterMenuComponent,
     ShopItemComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    CompleteComponent
   ],
   imports: [
     BrowserModule,

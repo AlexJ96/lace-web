@@ -28,9 +28,9 @@
             </li>
         </ul>
         <ul class="personal-nav">
-            <li>
+            <!-- TODO <li>
                 <i class="fa fa-search" aria-hidden="true"></i>
-            </li>
+            </li> -->
             <li>
                 <i (click)="redirect('/account');" class="fa fa-user-circle-o" aria-hidden="true"></i>
             </li>
@@ -51,7 +51,8 @@
                     <div class="col-lg-4 dropdown-menu" *ngFor="let menu of getMenuContent().menuDetails">
                         <h3 style="text-transform: initial; font-size: 21px;" class="font-settings">{{menu.categoryTitle}}</h3>
                         <hr style="margin-top: 0; border-top: 2px solid #DCD0C0;">
-                        <p class="font-settings" style="text-transform: initial; margin: 5px 10px; cursor: pointer; text-align: left;" *ngFor="let menuItem of menu.menuItems">
+                        <p class="font-settings" style="text-transform: initial; margin: 5px 10px; cursor: pointer; text-align: left;"
+                            *ngFor="let menuItem of menu.menuItems">
                             {{menuItem.label}}</p>
                     </div>
                 </div>

@@ -40,6 +40,10 @@ export class ShopService {
         return this.api.post("shop/item-spec", { ItemId: itemId });
     }
 
+    async applyDiscount(discountCode, totalPrice) {
+        return this.api.post("shop/apply-discount", { DiscountCode: discountCode, TotalPrice: totalPrice });
+    }
+
     getShopItems() {
         return this.shopItems;
     }

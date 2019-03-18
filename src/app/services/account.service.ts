@@ -113,7 +113,11 @@ export class AccountService {
 
     async completeOrder(orderData) {
         let response = await this.api.post("account/confirm-order", orderData);
-        console.log(response);
+        response = await this.handleTokenResponse(response);
+        if (response != null)
+            return response;
+        else
+            return "true";
     }
 
     getAccount() {
