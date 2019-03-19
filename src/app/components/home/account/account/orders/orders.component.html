@@ -6,7 +6,7 @@
     </div>
     <p>You can check your purchases and track orders from here.</p>
 
-    <div class="account-overview" style="margin-top: 35px !important;">
+    <div *ngIf="orders?.length == 0" class="account-overview" style="margin-top: 35px !important;">
         <p class="page-details">Oh dear</p>
         <p>You have not made any orders yet!</p>
 
@@ -15,25 +15,29 @@
         </div>
     </div>
 
-    <div class="account-overview" style="margin-top: 35px !important;">
+    <div *ngIf="orders?.length > 0" class="account-overview" style="margin-top: 35px !important;">
         <p>Below are your previous orders, which you can review and manage.</p>
 
         <div class="account-overview" style="margin-top: 35px !important;">
-            <div class="row no-gutters">
+            <div *ngFor="let order of orders" class="row no-gutters" style="margin-bottom: 20px;">
                 <div class="card">
                     <div class="card-header" style="cursor: pointer;">
                         <div class="row">
-                            <div class="col-xl-11 col-lg-11 col-md-10 col-sm-9 col-9 font-settings" style="padding-top: 20px; text-align: initial;">
-                                <p> Order #00001 </p>
+                            <div (click)="order.collapsed = !order.collapsed" class="col-xl-11 col-lg-11 col-md-10 col-sm-9 col-9 font-settings"
+                                style="padding-top: 20px; text-align: initial;">
+                                <p> Order <strong>#{{order?.order.id}}</strong> - Order Total: <strong>&pound;{{order?.order.orderTotal}}</strong></p>
                             </div>
-                            <div class="col-xl-1 col-lg-1 col-md-2 col-sm-3 col-3" (click)="collapse = !collapse" style="padding-top: 20px; text-align: center;">
+                            <div (click)="order.collapsed = !order.collapsed" class="col-xl-1 col-lg-1 col-md-2 col-sm-3 col-3"
+                                style="padding-top: 20px; text-align: center;">
                                 <i class="fa fa-chevron-down"></i>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 font-settings" style="text-align: initial; text-transform: initial;">
+                            <div (click)="order.collapsed = !order.collapsed" class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 font-settings"
+                                style="text-align: initial; text-transform: initial;">
                                 <p style="display: inline;"> Order Status:</p>
-                                <p style="color: green; display: inline; text-transform: uppercase;"> delivered</p>
+                                <p style="color: green; display: inline; text-transform: uppercase;">
+                                    {{order?.order.orderStatus.status}}</p>
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
                                 <small class="item-name" style="float:right; text-decoration: underline;">Manage Order</small>
@@ -41,41 +45,35 @@
                         </div>
                         <hr style="margin: 0;">
                     </div>
-                    <div class="card-content" *ngIf="!collapse" style="padding-top: 10px;">
+                    <div class="card-content" *ngIf="!order.collapsed" style="padding-top: 10px;">
                         <div class="items-container">
                             <div class="cart-item">
-                                <div class="row" style="border-bottom: 1px solid #dedede; padding-bottom: 15px;">
-                                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
+                                <div *ngFor="let orderItem of order?.orderItems" class="row" style="padding-bottom: 15px;">
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
                                         <div class="cart-item-image"></div>
                                     </div>
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
                                         <div class="cart-item-details">
-                                            <span class="item-name">name</span>
-                                            <p class="item-description">description</p>
+                                            <span class="item-name"><strong>{{orderItem?.itemSpec.item.name}}</strong></span>
+                                            <p class="item-description">{{orderItem?.itemSpec.item.description}}</p>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-3 col-3">
-                                        <div class="cart-item-size">
-                                            <span class="item-name">Size</span>
-                                            <div class="item-price">XL</div>
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                                        <div class="cart-item-size" style="text-align: center;">
+                                            <span class="item-name"><strong>Size</strong></span>
+                                            <div class="item-price">{{orderItem?.itemSpec.size?.size}}</div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-3 col-3">
-                                        <div class="cart-item-amount">
-                                            <span class="item-name">Quantity</span>
-                                            <div class="item-price">??</div>
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                                        <div class="cart-item-colour" style="text-align: center;">
+                                            <span class="item-name"><strong>Colour</strong></span>
+                                            <div class="item-price">{{orderItem?.itemSpec.colour?.colour}}</div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-3 col-3">
-                                        <div class="cart-item-colour">
-                                            <span class="item-name">Color</span>
-                                            <div class="item-price">blue</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-1 col-lg-1 col-md-3 col-sm-3 col-3">
-                                        <div class="cart-item-price">
-                                            <span class="item-name">Price</span>
-                                            <div class="item-price">&pound;9.99</div>
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                                        <div class="cart-item-amount" style="text-align: center;">
+                                            <span class="item-name"><strong>Quantity</strong></span>
+                                            <div class="item-price">{{orderItem?.quantity}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -85,6 +83,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>

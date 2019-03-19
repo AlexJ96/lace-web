@@ -328,7 +328,14 @@
                         <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
                             <div class="cart-item-price" style="text-align: center;">
                                 <span class="item-name"><strong>Price</strong></span>
-                                <div class="item-price">&pound;{{getPriceForItem(cartItem)}}</div>
+                                <br>
+                                <p *ngIf="cartItem?.itemSpec.item.salePrice == '0'" class="item-price" style="display: inline;">&pound;{{cartItem?.itemSpec.item?.price
+                                    * cartItem?.quantity}}</p>
+                                <p *ngIf="cartItem?.itemSpec.item.salePrice != '0'" class="item-price" style="display: inline; text-decoration: line-through;">&pound;{{cartItem?.itemSpec.item?.price
+                                    * cartItem?.quantity}}</p>
+                                <p *ngIf="cartItem?.itemSpec.item.salePrice != '0'" class="item-price" style="margin-left: 5px; display: inline; color: red;">&pound;{{cartItem?.itemSpec.item?.salePrice
+                                    * cartItem?.quantity}}</p>
+
                             </div>
                         </div>
                         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
@@ -359,7 +366,8 @@
             <div class="row justify-content-end">
                 <div class="col-sm-2">
                     <div class="button" (click)="applyDiscount();" style="width: 60%; margin: 0 auto !important;">
-                        <h4>Apply</h4>
+                        <h4 *ngIf="discount == 0.00">Apply</h4>
+                        <h4 *ngIf="discount != 0.00">Applied</h4>
                     </div>
                 </div>
             </div>
@@ -371,7 +379,7 @@
                 <h3 *ngIf="orderObject?.postageType != '' && freeDelivery" style="margin-top: 10px;">Postage:
                     Free</h3>
                 <h3 *ngIf="orderObject?.postageType != '' && !freeDelivery" style="margin-top: 10px;">Postage:
-                            &pound;{{getPriceForPostage()}}</h3>
+                    &pound;{{getPriceForPostage()}}</h3>
                 <h1>Total: &pound;{{orderObject.totalPrice}}</h1>
                 <br>
 

@@ -44,6 +44,8 @@ export class ShoppingBagComponent implements OnInit {
     }
 
     getPriceForItem(cartItem) {
+        if (cartItem.itemSpec.item.salePrice != '0')
+            return (cartItem.itemSpec.item.salePrice * cartItem.quantity).toFixed(2);
         return (cartItem.itemSpec.item.price * cartItem.quantity).toFixed(2);
     }
 }

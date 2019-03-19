@@ -49,14 +49,20 @@
                 <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
                     <div class="cart-item-price" style="text-align: center;">
                         <span class="item-name"><strong>Price</strong></span>
-                        <div class="item-price">&pound;{{getPriceForItem(cartItem)}}</div>
+                        <br>
+                        <p *ngIf="cartItem?.itemSpec.item.salePrice == '0'" class="item-price" style="display: inline;">&pound;{{cartItem?.itemSpec.item?.price * cartItem?.quantity}}</p>
+                        <p *ngIf="cartItem?.itemSpec.item.salePrice != '0'" class="item-price" style="display: inline; text-decoration: line-through;">&pound;{{cartItem?.itemSpec.item?.price * cartItem?.quantity}}</p>
+                        <p *ngIf="cartItem?.itemSpec.item.salePrice != '0'" class="item-price" style="margin-left: 5px; display: inline; color: red;">&pound;{{cartItem?.itemSpec.item?.salePrice * cartItem?.quantity}}</p>
+
+                        <!-- <div class="item-price">&pound;{{getPriceForItem(cartItem)}}</div> -->
                     </div>
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
                     <div class="cart-item-price">
                         <span class="item-name"></span>
                         <br>
-                        <div class="item-price" (click)="removeItem(cartItem);" style="cursor:pointer; text-align: center; text-decoration: underline;"><i class="fa fa-times" aria-hidden="true"></i></div>
+                        <div class="item-price" (click)="removeItem(cartItem);" style="cursor:pointer; text-align: center; text-decoration: underline;"><i
+                                class="fa fa-times" aria-hidden="true"></i></div>
                     </div>
                 </div>
             </div>

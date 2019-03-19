@@ -54,7 +54,6 @@ export class ShopItemComponent implements OnInit {
         }
         this.item = JSON.parse(localStorage.getItem("item"));
         this.itemSpecList = await this.shop.getSpecForItem(this.item.item.id);
-        console.log(this.itemSpecList);
         
         let index = 0;
         this.itemSpecList.forEach(element => {
@@ -69,13 +68,11 @@ export class ShopItemComponent implements OnInit {
         this.itemSpecsForCurrentColor.forEach(element => {
             element.size.selected = false;
         });
-        console.log(this.itemSpecsForCurrentColor);
     }
 
     selectColour(itemSpec) {
         if (itemSpec.selected)
             return;
-        console.log(itemSpec);
         this.itemSpecList.forEach(element => {
             element.selected = false;
             element.itemSpecs.forEach(size => {
@@ -105,6 +102,8 @@ export class ShopItemComponent implements OnInit {
     }
 
     selectAmount(amount) {
+        if (!amount.active)
+            return;
         this.amount.forEach(element => {
             element.selected = false;
         });

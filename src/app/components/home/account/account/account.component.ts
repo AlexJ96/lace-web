@@ -24,11 +24,7 @@ export class AccountComponent implements OnInit {
     }
 
     navigate(route) {
-        if (this.mobile) {
-            this.route.navigateByUrl("account/settings/"+route);
-        } else {
-            this.pageView = route;
-        }
+       this.route.navigateByUrl("account/"+route);
     }
 
     editMyDetails() {

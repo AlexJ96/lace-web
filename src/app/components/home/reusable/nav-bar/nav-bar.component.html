@@ -6,25 +6,25 @@
         <h1 [routerLink]="['']">𝕷𝖆𝖈𝖊 𝕭𝖔𝖚𝖙𝖎𝖖𝖚𝖊</h1>
         <ul class="site-nav-ul">
             <li>
-                <a (mouseenter)="showMenu = true; menu = 'Sale'" href="">New</a>
+                <a (mouseenter)="showMenu = false;" href="">New</a>
             </li>
             <li>
-                <a (mouseenter)="showMenu = true; menu = 'new'" [routerLink]="['/shop/category/new']" href="">Clothing</a>
+                <a (mouseenter)="showMenu = true; menu = 'Clothing'" [routerLink]="['/shop/category/new']" href="">Clothing</a>
             </li>
             <li>
-                <a [routerLink]="['/shop/category/clothing']" href="">Brands</a>
+                <a (mouseenter)="showMenu = true; menu = 'Brands'" [routerLink]="['/shop/category/clothing']" href="">Brands</a>
             </li>
             <li>
-                <a [routerLink]="['/shop/category/clothing']" href="">Dresses</a>
+                <a (mouseenter)="showMenu = true; menu = 'Dresses'" [routerLink]="['/shop/category/clothing']" href="">Dresses</a>
             </li>
             <li>
-                <a [routerLink]="['/shop/category/dresses']" href="">Accessories</a>
+                <a (mouseenter)="showMenu = true; menu = 'Accessories'" [routerLink]="['/shop/category/dresses']" href="">Accessories</a>
             </li>
             <li>
-                <a [routerLink]="['/shop/category/shoes']" href="">Footwear</a>
+                <a (mouseenter)="showMenu = true; menu = 'Footwear'" [routerLink]="['/shop/category/shoes']" href="">Footwear</a>
             </li>
             <li>
-                <a style="color: red;" href="">Sale</a>
+                <a (mouseenter)="showMenu = false;" style="color: red;" href="">Sale</a>
             </li>
         </ul>
         <ul class="personal-nav">
@@ -45,15 +45,12 @@
     <div (mouseenter)="showMenu = true;" (mouseleave)="showMenu = false;" [ngStyle]="{'display' : showMenu == true ? 'block' : 'none'}"
         style="width: 100%; height: auto; display: none;">
         <hr style="border-top: 1px solid #DCD0C0;">
-        <ng-container *ngIf="menu == 'Sale'">
+        <ng-container *ngIf="menu == 'Clothing' || menu == 'Brands' || menu == 'Dresses' || menu == 'Accessories' || menu == 'Footwear'">
             <div class="sale-menu">
                 <div class="row" style="padding-bottom: 20px;">
-                    <div class="col-lg-4 dropdown-menu" *ngFor="let menu of getMenuContent().menuDetails">
-                        <h3 style="text-transform: initial; font-size: 21px;" class="font-settings">{{menu.categoryTitle}}</h3>
-                        <hr style="margin-top: 0; border-top: 2px solid #DCD0C0;">
-                        <p class="font-settings" style="text-transform: initial; margin: 5px 10px; cursor: pointer; text-align: left;"
-                            *ngFor="let menuItem of menu.menuItems">
-                            {{menuItem.label}}</p>
+                    <div class="col-lg-3 dropdown-menu" *ngFor="let menu of getMenuContent().menuItems">
+                        <p class="font-settings" style="text-transform: initial; margin: 5px 10px; cursor: pointer; text-align: center;">
+                            {{menu.label}}</p>
                     </div>
                 </div>
             </div>

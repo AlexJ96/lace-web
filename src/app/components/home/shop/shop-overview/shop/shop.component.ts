@@ -27,6 +27,7 @@ export class ShopComponent implements OnInit {
     sizesFilterOpen: boolean = false;
     coloursFilterOpen: boolean = false;
     brandsFilterOpen: boolean = false;
+    typesFilterOpen: boolean = false;
     items: any;
     shownItemsAmount = 10;
     canLoadMoreItems = true;
@@ -39,7 +40,8 @@ export class ShopComponent implements OnInit {
         Brand: '',
         Colour: '',
         Size: '',
-        Category: 'Jeans',
+        Category: 'Clothing',
+        Type: '',
         CurrentPage: this.currentPage,
         Count: this.shownItemsAmount,
         Order: ''
@@ -82,6 +84,13 @@ export class ShopComponent implements OnInit {
         this.filters.BRAND_FILTERS.forEach(element => {
             element.checked = false;
         });
+
+        this.filters.TYPE_FILTERS.forEach(element => {
+            element.checked = false;
+        })
+
+        console.log(this.filters);
+        console.log(this.filter);
         
         this.items = await this.shopService.loadItemsByFilter(this.filter, ["Shop"]);
         this.items.forEach(item => {
@@ -135,6 +144,7 @@ export class ShopComponent implements OnInit {
         let sizeFilters = "";
         let colourFilters = "";
         let brandFilters = "";
+        let typeFilters = "";
 
         this.filters.SIZE_FILTERS.forEach(element => {
             if (element.checked) {
@@ -154,11 +164,18 @@ export class ShopComponent implements OnInit {
             }
         });
 
+        this.filters.TYPE_FILTERS.forEach(element => {
+            if (element.checked) {
+                typeFilters += element.key + ",";
+            }
+        });
+
         this.filter.Colour = colourFilters;
         this.filter.Size = sizeFilters;
         this.filter.Brand = brandFilters;
+        this.filter.Type = typeFilters;
 
-        if (this.filter.Colour == "" && this.filter.Size == "" && this.filter.Brand == "") {
+        if (this.filter.Colour == "" && this.filter.Size == "" && this.filter.Brand == "" && this.filter.Type == "") {
             this.clearFilters();
             return;
         }
@@ -172,18 +189,31 @@ export class ShopComponent implements OnInit {
     async clearFilters() {
         this.filter.Colour = '';
         this.filter.Size = '';
+        this.filter.Brand = '';
+        this.filter.Type = '';
 
         this.filters.SIZE_FILTERS.forEach(element => {
-            if (element.checked) {
-                element.checked = false;
-            }
+            element.checked = false;
         });
 
         this.filters.COLOUR_FILTERS.forEach(element => {
-            if (element.checked) {
-                element.checked = false;
-            }
+            element.checked = false;
         });
+
+        this.filters.BRAND_FILTERS.forEach(element => {
+            element.checked = false;
+        });
+
+        this.filters.TYPE_FILTERS.forEach(element => {
+            element.checked = false;
+        });
+
+        
+        this.sizesFilterOpen = false;
+        this.coloursFilterOpen = false;
+        this.brandsFilterOpen = false;
+        this.typesFilterOpen = false;
+
         this.items = await this.shopService.loadItemsByFilter(this.filter, ["Shop"]);
         this.filters = await this.shopService.loadFilters(this.filter, ["Shop"]);
         this.displayFilterMenu();
@@ -209,16 +239,26 @@ export class ShopComponent implements OnInit {
         this.sizesFilterOpen = !this.sizesFilterOpen;
         this.coloursFilterOpen = false;
         this.brandsFilterOpen = false;
+        this.typesFilterOpen = false;
     }
 
     displayColoursMenu() {
         this.coloursFilterOpen = !this.coloursFilterOpen;
         this.sizesFilterOpen = false;
         this.brandsFilterOpen = false;
+        this.typesFilterOpen = false;
     }
 
     displayBrandsMenu() {
         this.brandsFilterOpen = !this.brandsFilterOpen;
+        this.sizesFilterOpen = false;
+        this.coloursFilterOpen = false; 
+        this.typesFilterOpen = false;
+    }
+
+    displayTypesMenu() {
+        this.typesFilterOpen = !this.typesFilterOpen;
+        this.brandsFilterOpen = false;
         this.sizesFilterOpen = false;
         this.coloursFilterOpen = false;
     }

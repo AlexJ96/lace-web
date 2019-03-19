@@ -48,15 +48,14 @@
     <div class="account-overview" style="margin-top: 35px !important;">
         <p class="page-details">Contact Preferences</p>
         <p>Sign up to our newsletter and be the first to hear the latest offers, events, news and updates from us at Lace Boutique.</p>
-        <div class="button">
+        <div (click)="navigate('contact-preferences');" class="button">
             <h4>Change my Contact Preferences</h4>
         </div>
     </div>
     <div class="account-overview" style="margin-top: 35px !important;">
             <p class="page-details">Current Orders</p>
-            <p>Orders made in the last 30 days will appear here for you to quickly review and manage.</p>
-            <p>You haven't placed any recent orders.</p>
-            <div class="button">
+            <p>View your previous orders, see the status or request a cancellation.</p>
+            <div (click)="navigate('my-orders');" class="button">
                 <h4>View all Orders</h4>
             </div>
         </div>

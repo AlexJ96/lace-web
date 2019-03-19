@@ -83,6 +83,26 @@
                                 </div>
                             </div>
 
+                            <div class="filter-section" *ngIf="filters?.TYPE_FILTERS.length > 0">
+                                    <div class="filter-section-title-container" (click)="displayTypesMenu();">
+                                        <h2 class="filter-section-title" style="max-width: 80%; display: inline; cursor: pointer;">Specific</h2>
+                                        <i class="fa shop-plus" style="max-width: 5%; display: inline; cursor: pointer;"
+                                            [ngClass]="{'fa-plus' : typesFilterOpen == false, 'fa-minus' : typesFilterOpen == true}"></i>
+                                        <ul class="filter-ul" [ngStyle]="{'display' : typesFilterOpen ==  false ? 'none' : 'block'}"
+                                            (click)="$event.stopPropagation()">
+    
+                                            <li *ngFor="let brandFilter of filters?.TYPE_FILTERS;" style="max-height: 35px;">
+                                                <input id="{{brandFilter.key}}" type="checkbox" class="hidden-checkbox">
+                                                <label for="{{brandFilter.key}}" class="real-checkbox" (click)="brandFilter.checked = !brandFilter.checked"
+                                                    [ngClass]="{ 'real-checkbox-checked' : brandFilter.checked }">
+                                                    {{brandFilter.key}}
+                                                    <span class="filter-count">({{brandFilter.keyCount}})</span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
                             <div class="clear-apply">
                                 <span style="float: right; padding-left: 15px;" (click)="applyFilters()">Apply</span>
                                 <span style="float: right;" (click)="clearFilters()">Clear All</span>
@@ -180,7 +200,7 @@
         <div class="row" style="display: block;">
             <div *ngFor="let item of items" style="margin-bottom: 25px;" class="col-sm-4">
                 <div class="shop-item">
-                    <div class="item-image" style="width: 100%; max-height: 500px;">
+                    <div (click)="loadItemPage(item);" class="item-image" style="cursor: pointer;  width: 100%; max-height: 500px;">
                         <img style="max-width: 100%; max-height: 100%;" src="{{item?.url}}"/>
                     </div>
                     <hr style="border-top: 1px solid #DCD0C0;">
@@ -193,7 +213,10 @@
 
                         <br>
                         <small class="item-description" style="text-transform: initial;">{{item?.item?.description}}</small>
-                        <p class="item-price">&pound;{{item?.item?.price}}</p>
+                        <br>
+                        <p *ngIf="item?.item.salePrice == '0'" class="item-price" style="display: inline;">&pound;{{item?.item?.price}}</p>
+                        <p *ngIf="item?.item.salePrice != '0'" class="item-price" style="display: inline; text-decoration: line-through;">&pound;{{item?.item?.price}}</p>
+                        <p *ngIf="item?.item.salePrice != '0'" class="item-price" style="display: inline; color: red;">&pound;{{item?.item?.salePrice}}</p>
                     </div>
                 </div>
             </div>

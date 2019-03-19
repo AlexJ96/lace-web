@@ -111,6 +111,14 @@ export class AccountService {
         return await this.api.post("account/address-load", this.getAccount());
     }
 
+    async updateAddress(address) {
+        return await this.api.post("account/address-update", address);
+    }
+
+    async addAddress(address) {
+        return await this.api.post("account/address-add", { Account: this.getAccount(), Address: address });
+    }
+
     async completeOrder(orderData) {
         let response = await this.api.post("account/confirm-order", orderData);
         response = await this.handleTokenResponse(response);
@@ -118,6 +126,10 @@ export class AccountService {
             return response;
         else
             return "true";
+    }
+
+    async getOrdersForAccount() {
+        return await this.api.post("account/orders", this.getAccount())
     }
 
     getAccount() {

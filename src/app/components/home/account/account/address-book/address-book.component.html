@@ -5,13 +5,13 @@
         <p class="page-greeting">Address Book</p>
     </div>
     <p>Below are your saved addresses, which are used to make ordering smoother! Noticed something wrong, not a
-            problem, quickly edit it!</p>
+        problem, quickly edit it!</p>
 
     <div *ngIf="addresses?.length == 0" class="account-overview" style="margin-top: 35px !important;">
         <p class="page-details">Oh dear</p>
         <p>You don't have any saved addresses yet!</p>
 
-        <div class="button">
+        <div (click)="addingAddress = true;" class="button">
             <h4>Add Address</h4>
         </div>
     </div>
@@ -26,7 +26,7 @@
                 <p>{{address.city}}</p>
                 <p>{{address.country}}</p>
                 <p>{{address.postcode}}</p>
-                <div (click)="editAddress = address; editingAddress = true;" class="button">
+                <div (click)="editAddress(address);" class="button">
                     <h4>Edit Address</h4>
                 </div>
             </div>
@@ -38,7 +38,7 @@
             <div class="firstLine">
                 <h4>No. & Street</h4>
                 <div class="text-input">
-                    <input [(ngModel)]="editAddress.numberStreet" type="text" />
+                    <input [(ngModel)]="editedAddress.numberStreet" type="text" />
                 </div>
             </div>
 
@@ -46,7 +46,7 @@
             <div class="town">
                 <h4>Town</h4>
                 <div class="text-input">
-                    <input [(ngModel)]="editAddress.town" type="text" />
+                    <input [(ngModel)]="editedAddress.town" type="text" />
                 </div>
             </div>
 
@@ -54,7 +54,7 @@
             <div class="city">
                 <h4>City</h4>
                 <div class="text-input">
-                    <input [(ngModel)]="editAddress.city" type="text" />
+                    <input [(ngModel)]="editedAddress.city" type="text" />
                 </div>
             </div>
 
@@ -62,7 +62,7 @@
             <div class="country">
                 <h4>Country</h4>
                 <div class="text-input">
-                    <input [(ngModel)]="editAddress.country" type="text" />
+                    <input [(ngModel)]="editedAddress.country" type="text" />
                 </div>
             </div>
 
@@ -70,11 +70,11 @@
             <div class="postcode">
                 <h4>Postcode</h4>
                 <div class="text-input">
-                    <input [(ngModel)]="editAddress.postcode" type="text" />
+                    <input [(ngModel)]="editedAddress.postcode" type="text" />
                 </div>
             </div>
 
-            <div class="button" (click)="editingAddress = false;">
+            <div class="button" (click)="updateAddress();">
                 <h4>Update Address</h4>
             </div>
         </div>
@@ -85,7 +85,7 @@
             <div class="firstLine">
                 <h4>No. & Street</h4>
                 <div class="text-input">
-                    <input type="text" />
+                    <input [(ngModel)]="newAddress.numberStreet" type="text" />
                 </div>
             </div>
 
@@ -93,7 +93,7 @@
             <div class="town">
                 <h4>Town</h4>
                 <div class="text-input">
-                    <input type="text" />
+                    <input [(ngModel)]="newAddress.town" type="text" />
                 </div>
             </div>
 
@@ -101,15 +101,15 @@
             <div class="city">
                 <h4>City</h4>
                 <div class="text-input">
-                    <input type="text" />
+                    <input [(ngModel)]="newAddress.city" type="text" />
                 </div>
             </div>
-            
+
             <br>
             <div class="country">
                 <h4>Country</h4>
                 <div class="text-input">
-                    <input type="text" />
+                    <input [(ngModel)]="newAddress.country" type="text" />
                 </div>
             </div>
 
@@ -117,11 +117,11 @@
             <div class="postcode">
                 <h4>Postcode</h4>
                 <div class="text-input">
-                    <input type="text" />
+                    <input [(ngModel)]="newAddress.postcode" type="text" />
                 </div>
             </div>
 
-            <div class="button" (click)="addingAddress = false;">
+            <div class="button" (click)="addAddress();">
                 <h4>Add Address</h4>
             </div>
         </div>

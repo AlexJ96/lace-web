@@ -24,7 +24,11 @@
             <div class="product-details">
                 <h2 class="item-name">{{item?.item.name}}</h2>
                 <p class="item-description"> {{item?.item.description}} </p>
-                <p class="item-price">&pound;{{item?.item.price}}</p>
+                <div style="text-align: center; margin-top: 10px;">
+                    <p *ngIf="item?.item.salePrice == '0'" class="item-price" style="display: inline;">&pound;{{item?.item?.price}}</p>
+                    <p *ngIf="item?.item.salePrice != '0'" class="item-price" style="display: inline; text-decoration: line-through;">&pound;{{item?.item?.price}}</p>
+                    <p *ngIf="item?.item.salePrice != '0'" class="item-price" style="display: inline; color: red;">&pound;{{item?.item?.salePrice}}</p>
+                </div>
             </div>
 
             <div class="product-sizes">
@@ -54,7 +58,7 @@
                 <p class="font-settings" style="text-align: center; cursor: default;"><strong>Quantity</strong></p>
                 <div class="row justify-content-center">
                     <ng-container *ngFor="let amt of amount">
-                        <div *ngIf="amt.active" (click)="selectAmount(amt);" class="col-sm-1" style="width: auto; padding-right: 0;">
+                        <div (click)="selectAmount(amt);" class="col-sm-1" style="width: auto; padding-right: 0;">
                             <span class="page-info">
                                 <i class="fa" [ngClass]="{'page-disabled' : !amt.active, 'size-selected' : amt.selected }">{{amt.label}}</i>
                             </span>

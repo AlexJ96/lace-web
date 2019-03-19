@@ -73,7 +73,6 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
       this.orderObject.address.country = this.addresses[0].country;
       this.orderObject.address.postcode = this.addresses[0].postcode;
     }
-    this.calculateTotalPrice();
   }
 
   async removeItem(cartItem) {
@@ -86,6 +85,7 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
           this.route.navigateByUrl('account/shopping-bag');
         }
       }
+      this.calculateTotalPrice();
     }
   }
 
@@ -100,15 +100,17 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
       total += +this.getPriceForItem(element);
     });
 
-    console.log(this.discount);
+    console.log((total + postageTotal));
+    console.log((total + postageTotal) - this.discount);
     this.orderObject.totalPrice = ((total + postageTotal) - this.discount).toFixed(2);
     return (total + postageTotal).toFixed(2);
   }
 
   getPriceForItem(cartItem) {
+    if (cartItem.itemSpec.item.salePrice != '0')
+        return (cartItem.itemSpec.item.salePrice * cartItem.quantity).toFixed(2);
     return (cartItem.itemSpec.item.price * cartItem.quantity).toFixed(2);
-  }
-
+}
   getPriceForPostage() {
     if (this.orderObject.postageType == 'uk_standard')
       return 4.50;
@@ -172,6 +174,8 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy, OnInit {
   confirmPostage() {
     if (this.orderObject.deliveryType == 'post' && (this.orderObject.postageType == undefined || this.orderObject.postageType == ""))
       return;
+      
+    this.calculateTotalPrice();
     this.checkoutPoints[2].completed = true;
     this.checkoutPoints[2].current = false;
     this.checkoutPoints[3].current = true;

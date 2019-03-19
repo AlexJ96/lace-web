@@ -30,7 +30,11 @@
                         </span>
                         <br>
                         <small class="item-description">{{wishlistItem?.itemSpec.item.description}}</small>
-                        <p class="item-price">&pound;{{wishlistItem?.itemSpec.item.price}}</p>
+                        <br>
+                        <p *ngIf="wishlistItem?.itemSpec.item.salePrice == '0'" class="item-price" style="display: inline;">&pound;{{wishlistItem?.itemSpec.item?.price}}</p>
+                        <p *ngIf="wishlistItem?.itemSpec.item.salePrice != '0'" class="item-price" style="display: inline; text-decoration: line-through;">&pound;{{wishlistItem?.itemSpec.item?.price}}</p>
+                        <p *ngIf="wishlistItem?.itemSpec.item.salePrice != '0'" class="item-price" style="margin-left: 5px; display: inline; color: red;">&pound;{{wishlistItem?.itemSpec.item?.salePrice}}</p>
+
                     </div>
                     <div (click)="navigate(wishlistItem);" class="button" style="width: 100%;">
                         <h4>Move to Bag</h4>
